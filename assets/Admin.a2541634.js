@@ -1,0 +1,1 @@
+import{u as n,j as s,a}from"./index.49e1eb82.js";const t=()=>{const i=n();return s("div",{className:"main",children:[a("div",{children:"Admin"}),a("button",{onClick:()=>i("/home"),children:"\u56DE\u4F7F\u7528\u8005"})]})};export{t as default};

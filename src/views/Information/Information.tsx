@@ -5,11 +5,23 @@ import { ReactComponent as Write } from "../../assets/svgs/writeMark.svg";
 import { ReactComponent as Maximize } from "../../assets/svgs/maximizeMark.svg";
 import { useEffect, useState } from "react";
 
-const Information = () => {
+import { Swiper, SwiperSlide } from "swiper/react";
+// import required modules
+import { EffectCoverflow, Pagination } from "swiper";
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/navigation";
+
+interface InformationProps {
+  handleMenu: React.Dispatch<React.SetStateAction<string>>;
+}
+
+const Information = (props: InformationProps) => {
   /**
    * 状態定義
    */
   const [isScroll, setIsScroll] = useState<boolean>(false);
+
   /**
    * 監視定義
    */
@@ -56,53 +68,113 @@ const Information = () => {
         //圖片影片區
         <section className={style.contentSection}>
           <div className={style.sectionHeaderWrapper}>
-            <h1 className={style.sectionHeader}>預覽</h1>
-            <a className={style.sectionHeaderLink}>更多</a>
+            <h1 className={style.sectionHeader}>新人</h1>
           </div>
           <div className={style.contentSectionLine}>
-            <div className={`${style.sectionPart} ${style.left}`}>
+            <div className={`${style.left}`}>
               <a className={style.imageWrapper}>
-                <div className={style.imageOverlay}>
-                  <div className={style.videoInfo}>
-                    <div className={style.videoInfoText}>
-                      <p className={`${style.videoName} ${style.medium}`}>
-                        Happiness & Tears
-                      </p>
-                    </div>
-                    <Maximize className={style.maximize} />
-                  </div>
-                </div>
-                <img src="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2251&q=80" />
+                <Swiper
+                  effect={"coverflow"}
+                  grabCursor={true}
+                  centeredSlides={true}
+                  slidesPerView={"auto"}
+                  coverflowEffect={{
+                    rotate: 20,
+                    stretch: 0,
+                    depth: 50,
+                    modifier: 1,
+                    slideShadows: true,
+                  }}
+                  pagination={true}
+                  modules={[EffectCoverflow, Pagination]}
+                  className={style.mySwiper}
+                  onSwiper={(swiper) => console.log(swiper)}
+                  onSlideChange={(e) => console.log("slide change", e)}
+                >
+                  <SwiperSlide className={`${style.swiperSlide}`}>
+                    {({ isActive }) => (
+                      <img
+                        src="https://swiperjs.com/demos/images/nature-1.jpg"
+                        className={`${!isActive && style.sildActive}`}
+                      />
+                    )}
+                  </SwiperSlide>
+                  <SwiperSlide className={style.swiperSlide}>
+                    {({ isActive }) => (
+                      <img
+                        src="https://swiperjs.com/demos/images/nature-2.jpg"
+                        className={`${!isActive && style.sildActive}`}
+                      />
+                    )}
+                  </SwiperSlide>
+                  <SwiperSlide className={`${style.swiperSlide}`}>
+                    {({ isActive }) => (
+                      <img
+                        src="https://swiperjs.com/demos/images/nature-3.jpg"
+                        className={`${!isActive && style.sildActive}`}
+                      />
+                    )}
+                  </SwiperSlide>
+                </Swiper>
               </a>
             </div>
-            <div className={`${style.sectionPart} ${style.right}`}>
-              <div className={style.contentPartLine}>
-                <a className={style.imageWrapper}>
-                  <div className={style.imageOverlay}>
-                    <div className={style.videoInfo}>
-                      <div className={style.videoInfoText}>
-                        <p className={`${style.videoName} ${style.tiny}`}>
-                          High Hopes
-                        </p>
-                      </div>
-                      <Maximize className={style.maximize} />
-                    </div>
-                  </div>
-                  <img src="https://images.unsplash.com/photo-1515552726023-7125c8d07fb3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2167&q=80" />
-                </a>
-                <a className={style.imageWrapper}>
-                  <div className={style.imageOverlay}>
-                    <div className={style.videoInfo}>
-                      <div className={style.videoInfoText}>
-                        <p className={`${style.videoName} ${style.tiny}`}>
-                          Imaginery you
-                        </p>
-                      </div>
-                      <Maximize className={style.maximize} />
-                    </div>
-                  </div>
-                  <img src="https://images.unsplash.com/photo-1542359649-31e03cd4d909?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2167&q=80" />
-                </a>
+          </div>
+        </section>
+      }
+      {
+        //檔案列表
+        <section className={style.contentSection}>
+          <div className={style.sectionHeaderWrapper}>
+            <h1 className={style.sectionHeader}>已上傳</h1>
+            <a
+              className={style.sectionHeaderLink}
+              onClick={() => props.handleMenu("mypicture")}
+            >
+              更多
+            </a>
+          </div>
+
+          <div className={style.filesTable}>
+            <div className={style.filesTableHeader}>
+              <div className={`${style.columnHeader} ${style.tableCell}`}>
+                檔名
+              </div>
+              <div
+                className={`${style.columnHeader} ${style.tableCell} ${style.sizeCell}`}
+              >
+                大小
+              </div>
+              <div className={`${style.columnHeader} ${style.tableCell}`}>
+                上傳日期
+              </div>
+              <div className={`${style.columnHeader} ${style.tableCell}`}>
+                操作
+              </div>
+            </div>
+            <div className={style.filesTableRow}>
+              <div
+                className={`${style.tableCell} ${style.nameCell} ${style.pdf}`}
+              >
+                Test1.pdf
+              </div>
+              <div className={style.tableCell}>42 MB</div>
+              <div className={style.tableCell}>Aug 26, 2020</div>
+              <div className={`${style.tableCell} ${style.actionCell}`}>
+                <button className={style.moreAction}></button>
+              </div>
+            </div>
+            <div className={style.filesTableRow}>
+              <div
+                className={`${style.tableCell} ${style.nameCell} ${style.jpg}`}
+              >
+                Test2.jpg
+              </div>
+              <div className={`${style.tableCell} ${style.sizeCell}`}>
+                500 KB
+              </div>
+              <div className={style.tableCell}>Aug 26, 2020</div>
+              <div className={`${style.tableCell} ${style.actionCell}`}>
+                <button className={style.moreAction}></button>
               </div>
             </div>
           </div>

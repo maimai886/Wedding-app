@@ -28,7 +28,7 @@ const Home = () => {
   return (
     <Menu handleMenu={(value: string) => setMenuSelector(value)}>
       {path.pathname == "/admin" && <Outlet />}
-      {menuSelector == "" && <Information />}
+      {menuSelector == "" && <Information handleMenu={setMenuSelector}/>}
       {menuSelector == "mypicture" && <MyPicture />}
       {menuSelector == "user" && <User />}
     </Menu>

@@ -50,6 +50,9 @@
   margin-top: 32px;
   overflow-x: hidden;
   padding: 0 40px;
+  .sectionHeaderLink {
+    cursor: pointer;
+  }
 }
 
 .sectionHeader {
@@ -170,10 +173,6 @@
   margin: 0 -8px;
 }
 
-.sectionPart {
-  flex-basis: 49%;
-}
-
 .imageWrapper {
   border-radius: 12px;
   overflow: hidden;
@@ -205,54 +204,6 @@
   }
 }
 
-.imageOverlay {
-  position: absolute;
-  z-index: 1;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(
-    0deg,
-    rgba(0, 16, 34, 0.8) 0%,
-    rgba(240, 244, 253, 0.2) 90%
-  );
-  padding: 12px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  justify-content: flex-end;
-}
-
-.videoInfo {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-}
-
-.videoInfoText {
-  width: calc(100% - 40px);
-
-  p {
-    margin: 0;
-  }
-}
-
-.videoName {
-  color: #fff;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-
-  &.medium {
-    font-size: 14px;
-    line-height: 24px;
-  }
-
-  &.tiny {
-    font-size: 12px;
-    line-height: 16px;
-  }
-}
-
 .btnPlay {
   border-radius: 50%;
   background-color: #fff;
@@ -265,20 +216,6 @@
   width: 40px;
   height: 40px;
   flex-shrink: 0;
-}
-
-.maximize {
-  opacity: 0.8;
-  cursor: pointer;
-  transition: all 0.2s;
-  width: 48px;
-  height: 48px;
-  &:hover {
-    opacity: 1;
-    width: 56px;
-    height: 56px;
-    transition: all 0.2s;
-  }
 }
 
 .videoTime {
@@ -295,6 +232,110 @@
 
 .contentPartLine {
   height: 100%;
+}
+
+.swiper {
+  width: 100%;
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
+
+.swiperSlide {
+  background-position: center;
+  background-size: cover;
+  width: 80%;
+  transition: all 3s linear;
+
+  img {
+    display: block;
+    width: 100%;
+  }
+}
+.sildActive {
+  opacity: 0.6;
+  transition: all 3s linear;
+}
+
+/**
+*檔案列表
+*/
+.filesTable {
+  background-color: #fff;
+  box-shadow: 0 2px 6px 0 rgba(136, 148, 171, 0.2),
+    0 24px 20px -24px rgba(71, 82, 107, 0.1);
+  border-radius: 12px;
+  padding: 12px;
+  display: table;
+  table-layout: auto;
+  width: 100%;
+
+  &Header {
+    display: table-header-group;
+  }
+
+  &Row {
+    display: table-row-group;
+  }
+}
+
+.columnHeader {
+  font-size: 12px;
+  line-height: 16px;
+  color: #888da9;
+}
+
+.tableCell {
+  display: table-cell;
+  font-size: 12px;
+  line-height: 16px;
+  color: #000;
+  padding: 8px;
+}
+
+.sizeCell {
+  width: 20%;
+}
+
+.nameCell {
+  width: 40%;
+  word-break: break-all;
+
+  &.pdf:before {
+    content: "PDF";
+    background-color: #e2e9f8;
+    color: #5a8ff7;
+  }
+
+  &.jpg:before {
+    content: "JPG";
+    background-color: #e4e2f1;
+    color: #302d7d;
+  }
+
+  &:before {
+    border-radius: 4px;
+    font-size: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 4px;
+  }
+}
+
+.moreAction {
+  border: none;
+  background-color: transparent;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' fill='none' stroke='%23888da9' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' class='feather feather-more-horizontal' viewBox='0 0 24 24'%3E%3Cdefs/%3E%3Ccircle cx='12' cy='12' r='1'/%3E%3Ccircle cx='19' cy='12' r='1'/%3E%3Ccircle cx='5' cy='12' r='1'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  width: 24px;
+  height: 16px;
+  outline: none;
+  cursor: pointer;
 }
 
 /**
@@ -325,11 +366,6 @@
 
   .imageWrapper {
     margin: 10px 0;
-  }
-
-  .videoName.tiny {
-    font-size: 16px;
-    line-height: 24px;
   }
 
   .accessLinkWrapper {
