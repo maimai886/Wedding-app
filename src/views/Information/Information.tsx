@@ -2,7 +2,9 @@ import style from "./information.module.scss";
 import { ReactComponent as SearchButton } from "../../assets/svgs/searchMark.svg";
 import { ReactComponent as Upload } from "../../assets/svgs/uploadMark.svg";
 import { ReactComponent as Write } from "../../assets/svgs/writeMark.svg";
-import { ReactComponent as Maximize } from "../../assets/svgs/maximizeMark.svg";
+import together from "../../assets/img/together.jpg";
+import sara from "../../assets/img/sara.jpg";
+import wu from "../../assets/img/wu.jpg";
 import { useEffect, useState } from "react";
 
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -11,6 +13,7 @@ import { EffectCoverflow, Pagination } from "swiper";
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/navigation";
+import WriteModel from "../../components/WriteModel/WriteModel";
 
 interface InformationProps {
   handleMenu: React.Dispatch<React.SetStateAction<string>>;
@@ -21,6 +24,12 @@ const Information = (props: InformationProps) => {
    * 状態定義
    */
   const [isScroll, setIsScroll] = useState<boolean>(false);
+
+  //imgUpload
+  const [openUpload, setOpenUpload] = useState<boolean>(false);
+
+  //imgUpload
+  const [openWrite, setOpenWrite] = useState<boolean>(false);
 
   /**
    * 監視定義
@@ -53,22 +62,25 @@ const Information = (props: InformationProps) => {
               </div>
               <span className={style.accessText}>上傳圖片</span>
             </div>
-
             <div className={style.accessLinkWrapper}>
-              <div className={style.accessIcon}>
+              <div
+                className={style.accessIcon}
+                onClick={() => setOpenWrite(true)}
+              >
                 <Write />
               </div>
               <span className={style.accessText}>寫下祝福</span>
+              <WriteModel openWrite={openWrite} setOpenWrite={setOpenWrite}/>
             </div>
           </div>
         </section>
       }
 
       {
-        //圖片影片區
+        //圖片區
         <section className={style.contentSection}>
           <div className={style.sectionHeaderWrapper}>
-            <h1 className={style.sectionHeader}>新人</h1>
+            <h1 className={style.sectionHeader}>About us</h1>
           </div>
           <div className={style.contentSectionLine}>
             <div className={`${style.left}`}>
@@ -94,7 +106,7 @@ const Information = (props: InformationProps) => {
                   <SwiperSlide className={`${style.swiperSlide}`}>
                     {({ isActive }) => (
                       <img
-                        src="https://swiperjs.com/demos/images/nature-1.jpg"
+                        src={together}
                         className={`${!isActive && style.sildActive}`}
                       />
                     )}
@@ -102,7 +114,7 @@ const Information = (props: InformationProps) => {
                   <SwiperSlide className={style.swiperSlide}>
                     {({ isActive }) => (
                       <img
-                        src="https://swiperjs.com/demos/images/nature-2.jpg"
+                        src={sara}
                         className={`${!isActive && style.sildActive}`}
                       />
                     )}
@@ -110,7 +122,7 @@ const Information = (props: InformationProps) => {
                   <SwiperSlide className={`${style.swiperSlide}`}>
                     {({ isActive }) => (
                       <img
-                        src="https://swiperjs.com/demos/images/nature-3.jpg"
+                        src={wu}
                         className={`${!isActive && style.sildActive}`}
                       />
                     )}
