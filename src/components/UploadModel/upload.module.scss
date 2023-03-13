@@ -1,0 +1,14 @@
+.btnUpload {
+  cursor: pointer;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+}
+
+.plusIcon {
+  transition: all 0.2s linear;
+  &:hover {
+    color: #87b5ff;
+    transition: all 0.2s linear;
+  }
+}

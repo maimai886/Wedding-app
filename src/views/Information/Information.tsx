@@ -14,6 +14,7 @@ import { EffectCoverflow, Pagination } from "swiper";
 import "swiper/css";
 import "swiper/css/navigation";
 import WriteModel from "../../components/WriteModel/WriteModel";
+import UploadModel from "../../components/UploadModel/UploadModel";
 
 interface InformationProps {
   handleMenu: React.Dispatch<React.SetStateAction<string>>;
@@ -57,11 +58,19 @@ const Information = (props: InformationProps) => {
           <h1 className={style.sectionHeader}>操作</h1>
           <div className={style.accessLinks}>
             <div className={style.accessLinkWrapper}>
-              <div className={style.accessIcon}>
+              <div
+                className={style.accessIcon}
+                onClick={() => setOpenUpload(true)}
+              >
                 <Upload />
               </div>
               <span className={style.accessText}>上傳圖片</span>
+              <UploadModel
+                openUpload={openUpload}
+                setOpenUpload={setOpenUpload}
+              />
             </div>
+
             <div className={style.accessLinkWrapper}>
               <div
                 className={style.accessIcon}
@@ -70,7 +79,7 @@ const Information = (props: InformationProps) => {
                 <Write />
               </div>
               <span className={style.accessText}>寫下祝福</span>
-              <WriteModel openWrite={openWrite} setOpenWrite={setOpenWrite}/>
+              <WriteModel openWrite={openWrite} setOpenWrite={setOpenWrite} />
             </div>
           </div>
         </section>
@@ -151,11 +160,6 @@ const Information = (props: InformationProps) => {
               <div className={`${style.columnHeader} ${style.tableCell}`}>
                 檔名
               </div>
-              <div
-                className={`${style.columnHeader} ${style.tableCell} ${style.sizeCell}`}
-              >
-                大小
-              </div>
               <div className={`${style.columnHeader} ${style.tableCell}`}>
                 上傳日期
               </div>
@@ -169,7 +173,6 @@ const Information = (props: InformationProps) => {
               >
                 Test1.pdf
               </div>
-              <div className={style.tableCell}>42 MB</div>
               <div className={style.tableCell}>Aug 26, 2020</div>
               <div className={`${style.tableCell} ${style.actionCell}`}>
                 <button className={style.moreAction}></button>
@@ -180,9 +183,6 @@ const Information = (props: InformationProps) => {
                 className={`${style.tableCell} ${style.nameCell} ${style.jpg}`}
               >
                 Test2.jpg
-              </div>
-              <div className={`${style.tableCell} ${style.sizeCell}`}>
-                500 KB
               </div>
               <div className={style.tableCell}>Aug 26, 2020</div>
               <div className={`${style.tableCell} ${style.actionCell}`}>
