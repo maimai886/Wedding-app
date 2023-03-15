@@ -50,7 +50,6 @@
   color: var(--light-font);
   outline: none;
   cursor: pointer;
-
   display: none;
 }
 
@@ -129,6 +128,12 @@
   outline: none;
   cursor: pointer;
   display: none;
+  transition: all 0.1s linear;
+  &:hover {
+    width: 36px;
+    height: 44px;
+    transition: all 0.1s linear;
+  }
 }
 
 .btnShowLeftArea {
@@ -139,6 +144,24 @@
 .btnShowRightArea {
   right: 0;
   border-radius: 4px 0 0 4px;
+}
+
+.mainAreaHeader {
+  padding: 24px 40px;
+  background: #fff;
+  box-shadow: 0 5px 10px #b6b1b1;
+}
+
+.textHeader {
+  border-radius: 4px;
+  padding-right: 12px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--light-font);
+  overflow: hidden;
+  font-weight: bold;
 }
 /**
 *右側style

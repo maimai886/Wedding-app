@@ -1,0 +1,16 @@
+.main {
+  margin-top: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .contentSection {
+    margin-top: 32px;
+    padding: 0 40px;
+  }
+}
+
+@media screen and (max-width: 520px) {
+  .contentSection {
+    padding: 0 20px;
+  }
+}

@@ -1,14 +1,52 @@
-.btnUpload {
-  cursor: pointer;
+.uploadTitle {
+  width: 100%;
   display: flex;
-  justify-content: start;
-  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
 }
 
-.plusIcon {
-  transition: all 0.2s linear;
-  &:hover {
-    color: #87b5ff;
-    transition: all 0.2s linear;
+.uploadCustom {
+  height: 50% !important;
+
+  .uploadBody {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+
+    .uploadBtn {
+      cursor: pointer;
+    }
+
+    .imgPre {
+      width: 30%;
+    }
+
+    .cancle {
+      cursor: pointer;
+      transition: all 0.2s linear;
+      &:hover {
+        color: #87b5ff;
+        width: 28px;
+        height: 28px;
+        transition: all 0.2s linear;
+      }
+    }
+
+    .plusIcon {
+      transition: all 0.2s linear;
+      &:hover {
+        color: #87b5ff;
+        width: 56px;
+        height: 56px;
+        transition: all 0.2s linear;
+      }
+    }
+
+    .uploadText {
+      margin: 0 0 0 5px;
+      font-size: 12px;
+      color: #5a5a5a;
+      opacity: 0.8;
+    }
   }
 }

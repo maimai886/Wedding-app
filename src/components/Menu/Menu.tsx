@@ -16,6 +16,7 @@ import { ReactComponent as OpenLeft } from "../../assets/svgs/leftMark.svg";
 import { useState } from "react";
 
 interface menuProps {
+  showHeader?: boolean;
   handleMenu: Function;
   children: React.ReactNode;
 }
@@ -87,7 +88,11 @@ const Menu: React.FC<menuProps> = (props) => {
               setIsLeftOpen(!isLeftOpen);
             }}
           />
-
+          {props.showHeader && (
+            <div className={style.mainAreaHeader}>
+              <div className={style.textHeader}>Always be in love！</div>
+            </div>
+          )}
           <OpenRight
             className={style.btnShowRightArea}
             onClick={() => {

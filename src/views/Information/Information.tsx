@@ -40,19 +40,6 @@ const Information = (props: InformationProps) => {
   return (
     <div className={`${style.main} ${isScroll && style.fixed}`}>
       {
-        //頭部
-        <div className={style.mainAreaHeader}>
-          <div className={style.searchWrapper} id="searchLine">
-            <input
-              className={style.searchInput}
-              type="text"
-              placeholder="查詢已上傳圖片"
-            />
-            <SearchButton />
-          </div>
-        </div>
-      }
-      {
         //功能區
         <section className={style.contentSection}>
           <h1 className={style.sectionHeader}>操作</h1>

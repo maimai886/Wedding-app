@@ -4,6 +4,7 @@ import { useLocation } from "react-router-dom";
 import Menu from "../components/Menu/Menu";
 import Information from "./Information/Information";
 import MyPicture from "./MyPicture/MyPicture";
+import Schedule from "./Schedule/Schedule";
 import User from "./User/User";
 
 const Home = () => {
@@ -15,6 +16,9 @@ const Home = () => {
   //メニュー状態
   const [menuSelector, setMenuSelector] = useState<string>("");
 
+  //Header状態
+  const [showHeader, setShowHeader] = useState<boolean>(true);
+
   /**
    * 関数定義
    */
@@ -22,14 +26,20 @@ const Home = () => {
   /**
    * 監視
    */
+  //メニュー監視
   useEffect(() => {
-    console.log("t", path.pathname);
-  }, []);
+    menuSelector == "mypicture" ? setShowHeader(false) : setShowHeader(true);
+  }, [menuSelector]);
+
   return (
-    <Menu handleMenu={(value: string) => setMenuSelector(value)}>
+    <Menu
+      handleMenu={(value: string) => setMenuSelector(value)}
+      showHeader={showHeader}
+    >
       {path.pathname == "/admin" && <Outlet />}
-      {menuSelector == "" && <Information handleMenu={setMenuSelector}/>}
+      {menuSelector == "" && <Information handleMenu={setMenuSelector} />}
       {menuSelector == "mypicture" && <MyPicture />}
+      {menuSelector == "schedule" && <Schedule />}
       {menuSelector == "user" && <User />}
     </Menu>
   );
