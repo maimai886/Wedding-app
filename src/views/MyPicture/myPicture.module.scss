@@ -12,7 +12,11 @@
   top: 0;
   width: 100%;
   padding: 12px 40px;
-  transition: 0.2s;
+  transition: 0.2s ease-in;
+  -webkit-transition: 0.2s ease-in;
+  -moz-transition: 0.2s ease-in;
+  -ms-transition: 0.2s ease-in;
+  -o-transition: 0.2s ease-in;
   animation: sticky 0.5s forwards;
 }
 
@@ -29,9 +33,17 @@
     0 24px 20px -24px rgb(71 82 107 / 10%);
   overflow: hidden;
   transition: 0.1s all linear;
+  -webkit-transition: 0.1s all linear;
+  -moz-transition: 0.1s all linear;
+  -ms-transition: 0.1s all linear;
+  -o-transition: 0.1s all linear;
 
   &:hover {
     transition: 0.1s all linear;
+    -webkit-transition: 0.1s all linear;
+    -moz-transition: 0.1s all linear;
+    -ms-transition: 0.1s all linear;
+    -o-transition: 0.1s all linear;
     box-shadow: 0 2px 6px 0 rgb(143 171 249 / 58%),
       0 24px 20px -24px rgb(71 82 107 / 10%);
   }
@@ -82,10 +94,18 @@
     height: 100%;
     object-fit: cover;
     transition: 0.2s ease-in;
+    -webkit-transition: 0.2s ease-in;
+    -moz-transition: 0.2s ease-in;
+    -ms-transition: 0.2s ease-in;
+    -o-transition: 0.2s ease-in;
   }
 
   &:hover img {
     transform: scale(1.125);
+    -webkit-transform: scale(1.125);
+    -moz-transform: scale(1.125);
+    -ms-transform: scale(1.125);
+    -o-transform: scale(1.125);
   }
 }
 
@@ -145,14 +165,22 @@
 .maximize {
   opacity: 0.8;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: 0.2s ease-in;
+  -webkit-transition: 0.2s ease-in;
+  -moz-transition: 0.2s ease-in;
+  -ms-transition: 0.2s ease-in;
+  -o-transition: 0.2s ease-in;
   width: 48px;
   height: 48px;
   &:hover {
     opacity: 1;
     width: 56px;
     height: 56px;
-    transition: all 0.2s;
+    transition: 0.2s ease-in;
+    -webkit-transition: 0.2s ease-in;
+    -moz-transition: 0.2s ease-in;
+    -ms-transition: 0.2s ease-in;
+    -o-transition: 0.2s ease-in;
   }
 }
 

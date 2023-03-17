@@ -1,11 +1,43 @@
 import style from "./step.module.scss";
+import { ReactComponent as Check } from "../../assets/svgs/checkMark.svg";
 import { StepModel } from "./step.interface";
+import moment from "moment";
+import { useEffect, useState } from "react";
 
 interface StepProps {
   StepData: StepModel;
 }
 
 const Step = (props: StepProps) => {
+  /**
+   * 状況定義
+   */
+  //現在Step
+  const [isTime, setIsTime] = useState<boolean>(false);
+
+  //現在時間
+  const [isTimeNow, setIsTimeNow] = useState<boolean>(false);
+
+  /**
+   * 監視
+   */
+  //時間判断処理
+  useEffect(() => {
+    const now = parseInt(moment().format("HHmm"));
+    const startTime = parseInt(props.StepData.startTime.replace(":", ""));
+    const endtTime = parseInt(props.StepData.endTime.replace(":", ""));
+    let result = false;
+    if (now > startTime) {
+      result = true;
+    }
+    setIsTime(result);
+
+    result = false;
+    if (now >= startTime && now <= endtTime) {
+      result = true;
+    }
+    setIsTimeNow(result);
+  }, []);
   return (
     <div className={style.main}>
       {
@@ -28,17 +60,25 @@ const Step = (props: StepProps) => {
                 </span>
               </div>
               <div className={style.stepImg}>
-                <div className={style.imageWrapper}>
-                  <img src="https://images.unsplash.com/photo-1523987355523-c7b5b0dd90a7?ixlib=rb-1.2.1&auto=format&fit=crop&w=2250&q=80" />
-                </div>
-                <div className={style.imageWrapper}>
-                  <img src="https://images.unsplash.com/photo-1498855926480-d98e83099315?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2250&q=80" />
-                </div>
-                <div className={style.imageWrapper}>
-                  <img src="https://images.unsplash.com/photo-1492648272180-61e45a8d98a7?ixlib=rb-1.2.1&auto=format&fit=crop&w=2250&q=80" />
-                </div>
+                {props.StepData?.img &&
+                  props.StepData.img.map((item) => {
+                    return (
+                      <div className={style.imageWrapper}>
+                        <img src={item} />
+                      </div>
+                    );
+                  })}
               </div>
             </div>
+            {isTime && (
+              <div className={style.svgContent}>
+                <Check
+                  className={`${style.svgStyle} ${
+                    isTimeNow ? style.isTimeNow : null
+                  }`}
+                />
+              </div>
+            )}
           </div>
         </section>
       }

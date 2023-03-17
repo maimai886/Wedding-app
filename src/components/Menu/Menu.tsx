@@ -13,6 +13,8 @@ import { ReactComponent as Downloading } from "../../assets/svgs/downloadingMark
 import { ReactComponent as Stop } from "../../assets/svgs/stopMark.svg";
 import { ReactComponent as OpenRight } from "../../assets/svgs/rightMark.svg";
 import { ReactComponent as OpenLeft } from "../../assets/svgs/leftMark.svg";
+import Step from "../Step/Step";
+import { ScheduleDefaultData } from "../../views/Schedule/schedule.interface";
 import { useState } from "react";
 
 interface menuProps {
@@ -31,6 +33,18 @@ const Menu: React.FC<menuProps> = (props) => {
   const [isLeftOpen, setIsLeftOpen] = useState(false);
   //右側メニュー
   const [isRightOpen, setIsRightOpen] = useState(false);
+  //スケジュールデータ
+  const scheduleOne = {
+    ...ScheduleDefaultData,
+    startTime: "12:00",
+    endTime: "12:20",
+    eventName: "開場",
+    eventDetail: "新娘新郎入場",
+    img: [
+      "https://images.unsplash.com/photo-1523987355523-c7b5b0dd90a7?ixlib=rb-1.2.1&auto=format&fit=crop&w=2250&q=80",
+      "https://images.unsplash.com/photo-1498855926480-d98e83099315?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2250&q=80",
+    ],
+  };
 
   /**
    * 関数定義
@@ -157,32 +171,9 @@ const Menu: React.FC<menuProps> = (props) => {
           </div>
 
           <div className={style.rightAreaHeaderWrapper}>
-            <p className={style.rightAreaHeader}>File Received</p>
+            <p className={style.rightAreaHeader}>現在行程</p>
           </div>
-
-          <div className={style.receivedItemLine}>
-            <div className={style.progressLine}>
-              <span className={`${style.time} ${style.start}`}>15:30</span>
-              <span className={`${style.time} ${style.end}`}>18:30</span>
-            </div>
-            <div className={style.receivedItemsContent}>
-              <div className={style.receivedFiles}>
-                <div className={style.imageWrapper}>
-                  <img src="https://images.unsplash.com/photo-1523987355523-c7b5b0dd90a7?ixlib=rb-1.2.1&auto=format&fit=crop&w=2250&q=80" />
-                </div>
-                <div className={style.imageWrapper}>
-                  <img src="https://images.unsplash.com/photo-1498855926480-d98e83099315?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2250&q=80" />
-                </div>
-                <div className={style.imageWrapper}>
-                  <img src="https://images.unsplash.com/photo-1492648272180-61e45a8d98a7?ixlib=rb-1.2.1&auto=format&fit=crop&w=2250&q=80" />
-                </div>
-              </div>
-              <div className={style.receivedFilesInfo}>
-                Received <span className={style.infoPurple}>3 images</span>{" "}
-                total <span className={style.infoPurple}>50.3 MB</span>
-              </div>
-            </div>
-          </div>
+          <Step StepData={scheduleOne} />
         </div>
       }
     </div>

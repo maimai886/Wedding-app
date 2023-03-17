@@ -24,6 +24,10 @@
     border-radius: 50%;
     background-color: #22244a;
     transform: translateX(-50%);
+    -webkit-transform: translateX(-50%);
+    -moz-transform: translateX(-50%);
+    -ms-transform: translateX(-50%);
+    -o-transform: translateX(-50%);
     left: 50%;
   }
 
@@ -66,10 +70,18 @@
     height: 100%;
     object-fit: cover;
     transition: 0.2s ease-in;
+    -webkit-transition: 0.2s ease-in;
+    -moz-transition: 0.2s ease-in;
+    -ms-transition: 0.2s ease-in;
+    -o-transition: 0.2s ease-in;
   }
 
   &:hover img {
     transform: scale(1.125);
+    -webkit-transform: 0.2s ease-in;
+    -moz-transform: 0.2s ease-in;
+    -ms-transform: 0.2s ease-in;
+    -o-transform: 0.2s ease-in;
   }
 }
 
@@ -83,5 +95,31 @@
   span {
     color: #7a8dc5;
     font-size: 12px;
+  }
+}
+.svgContent {
+  display: flex;
+  align-items: center;
+  margin-left: 10%;
+}
+
+.svgStyle {
+  fill: #32cc45;
+}
+
+.isTimeNow {
+  animation: isTime 1s;
+  animation-iteration-count: infinite;
+}
+
+@keyframes isTime {
+  20% {
+    box-shadow: 0 1px 5px 2px #888da9;
+  }
+  60% {
+    box-shadow: 0 1px 6px 2px #fff;
+  }
+  80% {
+    box-shadow: 0 1px 7px 2px #888da9;
   }
 }

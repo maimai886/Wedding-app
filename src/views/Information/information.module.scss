@@ -46,7 +46,6 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-
   -webkit-transition: all 0.2s linear;
   -moz-transition: all 0.2s linear;
   -ms-transition: all 0.2s linear;
@@ -143,10 +142,18 @@
     height: 100%;
     object-fit: cover;
     transition: 0.2s ease-in;
+    -webkit-transition: 0.2s ease-in;
+    -moz-transition: 0.2s ease-in;
+    -ms-transition: 0.2s ease-in;
+    -o-transition: 0.2s ease-in;
   }
 
   &:hover img {
     transform: scale(1.125);
+    -webkit-transform: scale(1.125);
+    -moz-transform: scale(1.125);
+    -ms-transform: scale(1.125);
+    -o-transform: scale(1.125);
   }
 }
 
@@ -201,6 +208,10 @@
   background-size: cover;
   width: 80%;
   transition: all 3s linear;
+  -webkit-transition: all 3s linear;
+  -moz-transition: all 3s linear;
+  -ms-transition: all 3s linear;
+  -o-transition: all 3s linear;
 
   img {
     display: block;
@@ -210,6 +221,10 @@
 .sildActive {
   opacity: 0.6;
   transition: all 3s linear;
+  -webkit-transition: all 3s linear;
+  -moz-transition: all 3s linear;
+  -ms-transition: all 3s linear;
+  -o-transition: all 3s linear;
 }
 
 /**

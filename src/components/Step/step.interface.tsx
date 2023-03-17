@@ -3,4 +3,5 @@ export interface StepModel {
   endTime: string;
   eventName?: string;
   eventDetail?: string;
+  img?: string[];
 }
