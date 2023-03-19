@@ -1,0 +1,39 @@
+.main {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+
+  .alertStyle {
+    position: absolute;
+    top: 10%;
+    transform: translateX(-50%);
+    opacity: 0;
+    box-shadow: 0 2px 6px 2px #91c3faba;
+    animation: fade-in-out 3s;
+    -o-animation: fade-in-out 3s;
+    -moz-animation: fade-in-out 3s;
+    -webkit-animation: fade-in-out 3s;
+    -ms-zoom-animation: fade-in-out 3s;
+    animation-fill-mode: forwards; /* 保持最終狀態 */
+  }
+
+  .iconStyle {
+    margin: 5px;
+    fill: green;
+  }
+}
+
+@keyframes fade-in-out {
+  0% {
+    opacity: 0;
+    transform: translateX(-20%);
+  }
+  80% {
+    opacity: 1;
+    transform: translateX(0%);
+  }
+  100% {
+    opacity: 0;
+  }
+}

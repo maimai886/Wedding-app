@@ -1,81 +1,43 @@
 import style from "./myPicture.module.scss";
-import { ReactComponent as SearchButton } from "../../assets/svgs/searchMark.svg";
-import { ReactComponent as Maximize } from "../../assets/svgs/maximizeMark.svg";
+import { Swiper, SwiperSlide } from "swiper/react";
+// import required modules
+import { EffectCoverflow, Pagination } from "swiper";
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/navigation";
 
 const MyPicture = () => {
   return (
-    <div className={`${style.main}`}>
+    <div className={style.main}>
       {
-        //頭部
-        <div className={style.mainAreaHeader}>
-          <div className={style.searchWrapper} id="searchLine">
-            <input
-              className={style.searchInput}
-              type="text"
-              placeholder="查詢已上傳圖片"
-            />
-            <SearchButton />
-          </div>
-        </div>
-      }
-
-      {
-        //圖片區
-
+        //功能區
         <section className={style.contentSection}>
-          <div className={style.contentSectionLine}>
-            <div className={`${style.sectionPart}  ${style.left}`}>
-              <a className={style.imageWrapper}>
-                <div className={style.imageOverlay}>
-                  <div className={style.videoInfo}>
-                    <div className={style.videoInfoText}>
-                      <p className={`${style.videoName} ${style.medium}`}>
-                        Happiness & Tears
-                      </p>
-                    </div>
-                    <Maximize className={style.maximize} />
-                  </div>
-                </div>
-                <img src="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2251&q=80" />
-              </a>
-            </div>
-          </div>
-
-          <div className={style.contentSectionLine}>
-            <div className={`${style.sectionPart} ${style.left}`}>
-              <a className={style.imageWrapper}>
-                <div className={style.imageOverlay}>
-                  <div className={style.videoInfo}>
-                    <div className={style.videoInfoText}>
-                      <p className={`${style.videoName} ${style.medium}`}>
-                        Happiness & Tears
-                      </p>
-                    </div>
-                    <Maximize className={style.maximize} />
-                  </div>
-                </div>
-                <img src="https://images.unsplash.com/photo-1515552726023-7125c8d07fb3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2167&q=80" />
-              </a>
-            </div>
-          </div>
-
-          <div className={style.contentSectionLine}>
-            <div className={`${style.sectionPart} ${style.left}`}>
-              <a className={style.imageWrapper}>
-                <div className={style.imageOverlay}>
-                  <div className={style.videoInfo}>
-                    <div className={style.videoInfoText}>
-                      <p className={`${style.videoName} ${style.medium}`}>
-                        Happiness & Tears
-                      </p>
-                    </div>
-                    <Maximize className={style.maximize} />
-                  </div>
-                </div>
-                <img src="https://images.unsplash.com/photo-1542359649-31e03cd4d909?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2167&q=80" />
-              </a>
-            </div>
-          </div>
+          <Swiper
+            effect={"coverflow"}
+            grabCursor={true}
+            centeredSlides={true}
+            slidesPerView={"auto"}
+            coverflowEffect={{
+              rotate: 20,
+              stretch: 0,
+              depth: 50,
+              modifier: 1,
+              slideShadows: true,
+            }}
+            pagination={true}
+            modules={[EffectCoverflow, Pagination]}
+            className={style.mySwiper}
+          >
+            <SwiperSlide className={`${style.swiperSlide}`}>
+              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSTrMjaLnyOAvYiHouRP2zNBaZkTWma20x6aQ&usqp=CAU" />
+            </SwiperSlide>
+            <SwiperSlide className={style.swiperSlide}>
+              <img src="https://swiperjs.com/demos/images/nature-2.jpg" />
+            </SwiperSlide>
+            <SwiperSlide className={`${style.swiperSlide}`}>
+              <img src="https://swiperjs.com/demos/images/nature-3.jpg" />
+            </SwiperSlide>
+          </Swiper>
         </section>
       }
     </div>

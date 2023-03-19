@@ -1,51 +1,91 @@
+import React, { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
-import style from "./user.module.scss";
+import Form from "react-bootstrap/Form";
+import Modal from "react-bootstrap/Modal";
+import { LoginApi } from "../../request";
 
-import { Swiper, SwiperSlide } from "swiper/react";
-// import required modules
-import { EffectCoverflow, Pagination } from "swiper";
-// Import Swiper styles
-import "swiper/css";
-import "swiper/css/navigation";
+interface UserProps {
+  openUser: boolean;
+  setOpenUser: React.Dispatch<React.SetStateAction<boolean>>;
+}
 
-const User = () => {
+const User = (props: UserProps) => {
+  /**
+   * 状態定義
+   */
+  //ユーザー名
+  const [userName, setUserName] = useState<string>("");
+
+  /**
+   * 関数定義
+   */
+  //Model表示非表示
+  const handleClose = () => props.setOpenUser(false);
+
+  //sumbit処理
+  async function handleLogin(): Promise<void> {
+    if (userName == null || userName == "") {
+      return;
+    }
+    const params = { userName: userName };
+    let result = await LoginApi(params);
+    if (result) {
+      result = { ...result };
+      localStorage.setItem("userName", result[0].userName);
+      localStorage.setItem("sqlNo", result[0].sqlNo);
+      handleClose();
+    }
+  }
+
+  /**
+   * 監視定義
+   */
+
+  //初期化
+  useEffect(() => {
+    const name = localStorage.getItem("userName");
+    if (name) {
+      setUserName(name);
+    }
+  }, []);
+
   return (
-    <div className="main">
-      <p>user</p>
-      <Button as="a" variant="primary">
-        Button as link
-      </Button>
-      <Button as="a" variant="success">
-        Button as link
-      </Button>
-
-      <Swiper
-        effect={"coverflow"}
-        grabCursor={true}
-        centeredSlides={true}
-        slidesPerView={"auto"}
-        coverflowEffect={{
-          rotate: 20,
-          stretch: 0,
-          depth: 50,
-          modifier: 1,
-          slideShadows: true,
-        }}
-        pagination={true}
-        modules={[EffectCoverflow, Pagination]}
-        className={style.mySwiper}
+    <>
+      <Modal
+        show={props.openUser}
+        onHide={handleClose}
+        size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
       >
-        <SwiperSlide className={`${style.swiperSlide} ${style.sild}`}>
-          <img src="https://swiperjs.com/demos/images/nature-1.jpg" />
-        </SwiperSlide>
-        <SwiperSlide className={style.swiperSlide}>
-          <img src="https://swiperjs.com/demos/images/nature-2.jpg" />
-        </SwiperSlide>
-        <SwiperSlide className={`${style.swiperSlide} ${style.sild}`}>
-          <img src="https://swiperjs.com/demos/images/nature-3.jpg" />
-        </SwiperSlide>
-      </Swiper>
-    </div>
+        <Modal.Header closeButton>
+          <Modal.Title>歡迎您</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form>
+            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+              <Form.Label>請輸入大名</Form.Label>
+              <Form.Control
+                type="userName"
+                placeholder="輸入名字後才可以上傳照片參加抽獎唷!"
+                autoFocus
+                onChange={(e) => setUserName(e.target.value)}
+                maxLength={6}
+                defaultValue={userName}
+              />
+            </Form.Group>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            先看看
+          </Button>
+          <Button variant="primary" onClick={handleLogin}>
+            開始
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </>
   );
 };
 

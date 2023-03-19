@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
+import { commentApi, itemApi } from "../../request";
 
 interface WriteModelProps {
   openWrite: boolean;
@@ -12,8 +13,56 @@ const WriteModel = (props: WriteModelProps) => {
   /**
    * 状態定義
    */
-  const handleClose = () => props.setOpenWrite(false);
+  //メッセージ
+  const [comment, setComment] = useState<string>("");
+  //ユーザーinfo
+  const userInfo = {
+    userName: localStorage.getItem("userName"),
+    sqlNo: localStorage.getItem("sqlNo"),
+  };
 
+  /**
+   * 関数定義
+   */
+
+  //表示非表示
+
+  function handleClose(): void {
+    props.setOpenWrite(false);
+  }
+
+  async function handleSumbit(): Promise<void> {
+    if (userInfo.userName == null || userInfo.userName == "") {
+      return;
+    }
+
+    const param = {
+      userName: userInfo.userName,
+      sqlNo: userInfo.sqlNo,
+      comment: comment,
+    };
+
+    let result = await commentApi(param);
+    handleClose();
+  }
+
+  async function getItem(): Promise<void> {
+    if (userInfo.sqlNo == null || userInfo.sqlNo == "") {
+      return;
+    }
+    const param = { ...userInfo };
+    let result = await itemApi(param);
+    if (result) {
+      result = { ...result };
+      setComment(result[0].comment);
+    }
+  }
+  /**
+   * 監視定義
+   */
+  useEffect(() => {
+    getItem();
+  }, []);
   return (
     <>
       <Modal
@@ -37,6 +86,9 @@ const WriteModel = (props: WriteModelProps) => {
                 as="textarea"
                 rows={3}
                 placeholder="在這裡先祝福大家金兔祈福，闔家幸福"
+                maxLength={60}
+                defaultValue={comment}
+                onChange={(e) => setComment(e.target.value)}
               />
             </Form.Group>
           </Form>
@@ -45,7 +97,7 @@ const WriteModel = (props: WriteModelProps) => {
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
-          <Button variant="primary" onClick={handleClose}>
+          <Button variant="primary" onClick={handleSumbit}>
             OK
           </Button>
         </Modal.Footer>

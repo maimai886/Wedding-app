@@ -13,13 +13,16 @@ import { ReactComponent as Downloading } from "../../assets/svgs/downloadingMark
 import { ReactComponent as Stop } from "../../assets/svgs/stopMark.svg";
 import { ReactComponent as OpenRight } from "../../assets/svgs/rightMark.svg";
 import { ReactComponent as OpenLeft } from "../../assets/svgs/leftMark.svg";
+import { ReactComponent as Letter } from "../../assets/svgs/letterMark.svg";
 import Step from "../Step/Step";
 import { ScheduleDefaultData } from "../../views/Schedule/schedule.interface";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { itemApi } from "../../request";
 
 interface menuProps {
   showHeader?: boolean;
   handleMenu: Function;
+  handleUser: Function;
   children: React.ReactNode;
 }
 
@@ -30,9 +33,17 @@ const Menu: React.FC<menuProps> = (props) => {
   //Router
   const navigate = useNavigate();
   //左側メニュー
-  const [isLeftOpen, setIsLeftOpen] = useState(false);
+  const [isLeftOpen, setIsLeftOpen] = useState<boolean>(false);
   //右側メニュー
-  const [isRightOpen, setIsRightOpen] = useState(false);
+  const [isRightOpen, setIsRightOpen] = useState<boolean>(false);
+  //ユーザーinfo
+  const userInfo = {
+    userName: localStorage.getItem("userName"),
+    sqlNo: localStorage.getItem("sqlNo"),
+  };
+  //メッセージ
+  const [comment, setComment] = useState<string>("");
+
   //スケジュールデータ
   const scheduleOne = {
     ...ScheduleDefaultData,
@@ -54,6 +65,23 @@ const Menu: React.FC<menuProps> = (props) => {
     setIsLeftOpen(false);
   }
 
+  async function getItem(): Promise<void> {
+    if (userInfo.sqlNo == null || userInfo.sqlNo == "") {
+      return;
+    }
+    const param = { ...userInfo };
+    let result = await itemApi(param);
+    if (result) {
+      result = { ...result };
+      setComment(result[0].comment);
+    }
+  }
+  /**
+   * 監視定義
+   */
+  useEffect(() => {
+    getItem();
+  }, []);
   return (
     <div className={style.appContainer}>
       {
@@ -67,7 +95,7 @@ const Menu: React.FC<menuProps> = (props) => {
             />
           </button>
 
-          <div className={style.appName}>MyDocs</div>
+          <div className={style.appName}>Menu</div>
 
           <Home className={style.sideMenu} onClick={() => menuChange("")} />
           <Picture
@@ -87,7 +115,7 @@ const Menu: React.FC<menuProps> = (props) => {
           <button className={style.btnLogout}>
             <Logout
               className={style.sideMenu}
-              onClick={() => menuChange("user")}
+              onClick={() => props.handleUser(true)}
             />
           </button>
         </div>
@@ -111,6 +139,7 @@ const Menu: React.FC<menuProps> = (props) => {
             className={style.btnShowRightArea}
             onClick={() => {
               setIsRightOpen(!isRightOpen);
+              getItem();
             }}
           />
           {props.children}
@@ -174,6 +203,23 @@ const Menu: React.FC<menuProps> = (props) => {
             <p className={style.rightAreaHeader}>現在行程</p>
           </div>
           <Step StepData={scheduleOne} />
+
+          <div className={style.downloadItemLine}>
+            <div className={style.lineHeader}>您的祝福語</div>
+            <div className={style.downloadArea}>
+              <div className={style.downloadItemIcon}>
+                <Letter />
+              </div>
+              <div className={style.downloadItemTexts}>
+                <p className={style.downloadTextHeader}>
+                  {comment ? "內容" : "您還沒寫下任何內容唷"}
+                </p>
+                <p className={style.letterTextInfo}>
+                  <span>{comment}</span>
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
       }
     </div>
