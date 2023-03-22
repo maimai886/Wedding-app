@@ -7,9 +7,17 @@ document.body.appendChild(AlertContainer);
 
 export interface AlertModelData {
   show: boolean;
-  type: "success" | "warning" | "danger";
+  type:
+    | "primary"
+    | "secondary"
+    | "success"
+    | "danger"
+    | "warning"
+    | "info"
+    | "light"
+    | "dark";
   message: string;
-  icon:JSX.Element;
+  icon?: JSX.Element;
 }
 
 /**

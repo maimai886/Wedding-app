@@ -24,19 +24,20 @@ const Step = (props: StepProps) => {
   //時間判断処理
   useEffect(() => {
     const now = parseInt(moment().format("HHmm"));
-    const startTime = parseInt(props.StepData.startTime.replace(":", ""));
-    const endtTime = parseInt(props.StepData.endTime.replace(":", ""));
+    const startTime = parseInt(props.StepData?.startTime.replace(":", ""));
+    const endtTime = parseInt(props.StepData?.endTime.replace(":", ""));
     let result = false;
+    console.log(now, startTime, props.StepData.startTime, now > startTime);
     if (now > startTime) {
       result = true;
+      setIsTime(result);
     }
-    setIsTime(result);
 
     result = false;
     if (now >= startTime && now <= endtTime) {
       result = true;
+      setIsTimeNow(result);
     }
-    setIsTimeNow(result);
   }, []);
   return (
     <div className={style.main}>
@@ -61,9 +62,9 @@ const Step = (props: StepProps) => {
               </div>
               <div className={style.stepImg}>
                 {props.StepData?.img &&
-                  props.StepData.img.map((item) => {
+                  props.StepData.img.map((item, index) => {
                     return (
-                      <div className={style.imageWrapper}>
+                      <div key={index} className={style.imageWrapper}>
                         <img src={item} />
                       </div>
                     );

@@ -1,4 +1,6 @@
 import style from "./alertModel.module.scss";
+import { ReactComponent as Error } from "../../assets/svgs/errorMark.svg";
+import { ReactComponent as Check } from "../../assets/svgs/checkMark.svg";
 import Alert from "react-bootstrap/Alert";
 import { useEffect, useState } from "react";
 import { AlertModelData } from "./alertModel.interface";
@@ -9,8 +11,14 @@ interface AlertModelProps {
 }
 
 const AlertModel = (props: AlertModelProps) => {
+  /**
+   * 状態定義
+   */
   const [showAlert, setShowAlert] = useState<boolean>(true);
 
+  /**
+   * 監視定義
+   */
   useEffect(() => {
     if (showAlert) {
       const timer = setTimeout(() => {
@@ -29,7 +37,12 @@ const AlertModel = (props: AlertModelProps) => {
           onClose={props.onClose}
           className={style.alertStyle}
         >
-          <span className={style.iconStyle}>{props.alertData.icon}</span>
+          <span className={style.iconStyle}>
+            {props.alertData.icon
+              ? props.alertData.icon
+              : (props.alertData.type == "error" && <Error />,
+                props.alertData.type == "success" && <Check />)}
+          </span>
           {props.alertData.message}
         </Alert>
       )}

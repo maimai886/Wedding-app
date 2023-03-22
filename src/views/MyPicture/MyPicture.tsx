@@ -5,8 +5,43 @@ import { EffectCoverflow, Pagination } from "swiper";
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/navigation";
+import { useEffect, useState } from "react";
+import { getFileListApi } from "../../request";
+import { FileListData } from "../Information/information.interface";
 
 const MyPicture = () => {
+  /**
+   * 状態定義
+   */
+  //ユーザーinfo
+  const userInfo = {
+    userName: localStorage.getItem("userName"),
+    sqlNo: localStorage.getItem("sqlNo"),
+  };
+
+  //filelist取得
+  const [fileList, setFileList] = useState<FileListData[]>([]);
+
+  /**
+   * 関数定義
+   */
+  //filelist取得
+  async function getFileList(): Promise<void> {
+    if (userInfo.sqlNo == null || userInfo.sqlNo == "") {
+      return;
+    }
+    const param = { ...userInfo };
+    let result = await getFileListApi(param);
+    if (result.code == 0) {
+      setFileList(result.fileList);
+    }
+  }
+  /**
+   * 監視定義
+   */
+  useEffect(() => {
+    getFileList();
+  }, []);
   return (
     <div className={style.main}>
       {
@@ -28,15 +63,20 @@ const MyPicture = () => {
             modules={[EffectCoverflow, Pagination]}
             className={style.mySwiper}
           >
-            <SwiperSlide className={`${style.swiperSlide}`}>
-              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSTrMjaLnyOAvYiHouRP2zNBaZkTWma20x6aQ&usqp=CAU" />
-            </SwiperSlide>
-            <SwiperSlide className={style.swiperSlide}>
-              <img src="https://swiperjs.com/demos/images/nature-2.jpg" />
-            </SwiperSlide>
-            <SwiperSlide className={`${style.swiperSlide}`}>
-              <img src="https://swiperjs.com/demos/images/nature-3.jpg" />
-            </SwiperSlide>
+            {fileList ? (
+              fileList.map((item) => (
+                <SwiperSlide className={`${style.swiperSlide}`}>
+                  <img
+                    src={`data:image/png;base64,${item.imgData}`}
+                    alt="無法顯示"
+                  />
+                </SwiperSlide>
+              ))
+            ) : (
+              <div>
+                <img src="/D://img//f07105969dbc5f2c1f626cf3a01e285e.png" />
+              </div>
+            )}
           </Swiper>
         </section>
       }

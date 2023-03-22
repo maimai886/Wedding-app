@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
-import { commentApi, itemApi } from "../../request";
+import { commentApi, getCommentApi } from "../../request";
+import { showAlert } from "../AlertModel/Alert";
 
 interface WriteModelProps {
   openWrite: boolean;
@@ -15,6 +16,7 @@ const WriteModel = (props: WriteModelProps) => {
    */
   //メッセージ
   const [comment, setComment] = useState<string>("");
+
   //ユーザーinfo
   const userInfo = {
     userName: localStorage.getItem("userName"),
@@ -33,6 +35,12 @@ const WriteModel = (props: WriteModelProps) => {
 
   async function handleSumbit(): Promise<void> {
     if (userInfo.userName == null || userInfo.userName == "") {
+      handleClose();
+      showAlert({
+        type: "warning" as const,
+        message: `失敗:歹勢啦!好像還不知道您的大名耶 (ᗒᗣᗕ)՞ `,
+        show: true,
+      });
       return;
     }
 
@@ -46,12 +54,12 @@ const WriteModel = (props: WriteModelProps) => {
     handleClose();
   }
 
-  async function getItem(): Promise<void> {
+  async function getComment(): Promise<void> {
     if (userInfo.sqlNo == null || userInfo.sqlNo == "") {
       return;
     }
     const param = { ...userInfo };
-    let result = await itemApi(param);
+    let result = await getCommentApi(param);
     if (result) {
       result = { ...result };
       setComment(result[0].comment);
@@ -61,7 +69,7 @@ const WriteModel = (props: WriteModelProps) => {
    * 監視定義
    */
   useEffect(() => {
-    getItem();
+    getComment();
   }, []);
   return (
     <>

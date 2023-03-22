@@ -1,11 +1,12 @@
 import style from "./information.module.scss";
-import { ReactComponent as SearchButton } from "../../assets/svgs/searchMark.svg";
 import { ReactComponent as Upload } from "../../assets/svgs/uploadMark.svg";
 import { ReactComponent as Write } from "../../assets/svgs/writeMark.svg";
+import { ReactComponent as Box } from "../../assets/svgs/boxMark.svg";
 import together from "../../assets/img/together.jpg";
 import sara from "../../assets/img/sara.jpg";
 import wu from "../../assets/img/wu.jpg";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
+import moment from "moment";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 // import required modules
@@ -15,6 +16,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import WriteModel from "../../components/WriteModel/WriteModel";
 import UploadModel from "../../components/UploadModel/UploadModel";
+import { FileListData } from "./information.interface";
 
 interface InformationProps {
   handleMenu: React.Dispatch<React.SetStateAction<string>>;
@@ -24,6 +26,7 @@ const Information = (props: InformationProps) => {
   /**
    * 状態定義
    */
+
   const [isScroll, setIsScroll] = useState<boolean>(false);
 
   //imgUpload
@@ -32,10 +35,8 @@ const Information = (props: InformationProps) => {
   //imgUpload
   const [openWrite, setOpenWrite] = useState<boolean>(false);
 
-  /**
-   * 監視定義
-   */
-  useEffect(() => {}, []);
+  //fileList
+  const [fileList, setFileList] = useState<FileListData[]>([]);
 
   return (
     <div className={`${style.main} ${isScroll && style.fixed}`}>
@@ -55,6 +56,13 @@ const Information = (props: InformationProps) => {
               <UploadModel
                 openUpload={openUpload}
                 setOpenUpload={setOpenUpload}
+                setFileList={(e: any) => {
+                  setFileList(() => {
+                    console.log("fileList", e);
+                    return e;
+                  });
+                }}
+                handleMenu={() => props.handleMenu("mypicture")}
               />
             </div>
 
@@ -96,8 +104,6 @@ const Information = (props: InformationProps) => {
                   pagination={true}
                   modules={[EffectCoverflow, Pagination]}
                   className={style.mySwiper}
-                  onSwiper={(swiper) => console.log(swiper)}
-                  onSlideChange={(e) => console.log("slide change", e)}
                 >
                   <SwiperSlide className={`${style.swiperSlide}`}>
                     {({ isActive }) => (
@@ -154,28 +160,28 @@ const Information = (props: InformationProps) => {
                 操作
               </div>
             </div>
-            <div className={style.filesTableRow}>
-              <div
-                className={`${style.tableCell} ${style.nameCell} ${style.pdf}`}
-              >
-                Test1.pdf
+            {fileList.length > 0 ? (
+              fileList.map((item) => (
+                <div className={style.filesTableRow} key={item.fileName}>
+                  <div
+                    className={`${style.tableCell} ${style.nameCell} ${style.png}`}
+                  >
+                    {item.originalName}
+                  </div>
+                  <div className={style.tableCell}>
+                    {moment(item.updateTime).format("MM-DD HH:ss")}
+                  </div>
+                  <div className={`${style.tableCell} ${style.actionCell}`}>
+                    <button className={style.moreAction}></button>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <div className={style.nofile}>
+                <Box />
+                no data
               </div>
-              <div className={style.tableCell}>Aug 26, 2020</div>
-              <div className={`${style.tableCell} ${style.actionCell}`}>
-                <button className={style.moreAction}></button>
-              </div>
-            </div>
-            <div className={style.filesTableRow}>
-              <div
-                className={`${style.tableCell} ${style.nameCell} ${style.jpg}`}
-              >
-                Test2.jpg
-              </div>
-              <div className={style.tableCell}>Aug 26, 2020</div>
-              <div className={`${style.tableCell} ${style.actionCell}`}>
-                <button className={style.moreAction}></button>
-              </div>
-            </div>
+            )}
           </div>
         </section>
       }

@@ -1,5 +1,4 @@
 import style from "./Menu.module.scss";
-import { useNavigate } from "react-router-dom";
 import { ReactComponent as CancelButton } from "../../assets/svgs/cancleMark.svg";
 import { ReactComponent as Home } from "../../assets/svgs/homeMark.svg";
 import { ReactComponent as Picture } from "../../assets/svgs/pictureMark.svg";
@@ -14,10 +13,13 @@ import { ReactComponent as Stop } from "../../assets/svgs/stopMark.svg";
 import { ReactComponent as OpenRight } from "../../assets/svgs/rightMark.svg";
 import { ReactComponent as OpenLeft } from "../../assets/svgs/leftMark.svg";
 import { ReactComponent as Letter } from "../../assets/svgs/letterMark.svg";
+import { ReactComponent as Clock } from "../../assets/svgs/clockMark.svg";
 import Step from "../Step/Step";
-import { ScheduleDefaultData } from "../../views/Schedule/schedule.interface";
 import { useEffect, useState } from "react";
-import { itemApi } from "../../request";
+import { getCommentApi } from "../../request";
+import moment from "moment";
+import { StepModel } from "../Step/step.interface";
+import { getScheduleConstant } from "../../constants/scheduleConstant";
 
 interface menuProps {
   showHeader?: boolean;
@@ -30,8 +32,6 @@ const Menu: React.FC<menuProps> = (props) => {
   /**
    * 状態定義
    */
-  //Router
-  const navigate = useNavigate();
   //左側メニュー
   const [isLeftOpen, setIsLeftOpen] = useState<boolean>(false);
   //右側メニュー
@@ -44,44 +44,62 @@ const Menu: React.FC<menuProps> = (props) => {
   //メッセージ
   const [comment, setComment] = useState<string>("");
 
+  //現在時間
+  const timeNow = moment().format("HHss");
+
   //スケジュールデータ
-  const scheduleOne = {
-    ...ScheduleDefaultData,
-    startTime: "12:00",
-    endTime: "12:20",
-    eventName: "開場",
-    eventDetail: "新娘新郎入場",
-    img: [
-      "https://images.unsplash.com/photo-1523987355523-c7b5b0dd90a7?ixlib=rb-1.2.1&auto=format&fit=crop&w=2250&q=80",
-      "https://images.unsplash.com/photo-1498855926480-d98e83099315?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2250&q=80",
-    ],
-  };
+  const [scheduleData, setScheduleData] = useState<StepModel>();
 
   /**
    * 関数定義
    */
+  //メニュー選択処理
   function menuChange(value: string): void {
     props.handleMenu(value);
     setIsLeftOpen(false);
   }
 
-  async function getItem(): Promise<void> {
+  //スケジュール処理
+  function handleSchedule(): void {
+    let result = getScheduleConstant();
+    const foundItem = result.find(
+      (item) =>
+        parseInt(item.startTime.replace(":", "")) < parseInt(timeNow) &&
+        parseInt(item.endTime.replace(":", "")) > parseInt(timeNow)
+    );
+
+    if (foundItem) {
+      setScheduleData(foundItem);
+    }
+  }
+
+  //右側メニュー表示処理
+  async function handleRightClick(): Promise<void> {
+    setIsRightOpen(!isRightOpen);
+    await getComment();
+    handleSchedule();
+  }
+
+  //comment取得
+  async function getComment(): Promise<void> {
     if (userInfo.sqlNo == null || userInfo.sqlNo == "") {
       return;
     }
     const param = { ...userInfo };
-    let result = await itemApi(param);
+    let result = await getCommentApi(param);
     if (result) {
       result = { ...result };
       setComment(result[0].comment);
     }
   }
+
   /**
    * 監視定義
    */
   useEffect(() => {
-    getItem();
+    handleSchedule();
   }, []);
+
   return (
     <div className={style.appContainer}>
       {
@@ -137,10 +155,7 @@ const Menu: React.FC<menuProps> = (props) => {
           )}
           <OpenRight
             className={style.btnShowRightArea}
-            onClick={() => {
-              setIsRightOpen(!isRightOpen);
-              getItem();
-            }}
+            onClick={handleRightClick}
           />
           {props.children}
         </div>
@@ -202,7 +217,22 @@ const Menu: React.FC<menuProps> = (props) => {
           <div className={style.rightAreaHeaderWrapper}>
             <p className={style.rightAreaHeader}>現在行程</p>
           </div>
-          <Step StepData={scheduleOne} />
+          {scheduleData ? (
+            <Step StepData={scheduleData} />
+          ) : (
+            <div className={style.downloadItemLine}>
+              <div className={style.downloadArea}>
+                <div className={style.downloadItemIcon}>
+                  <Clock />
+                </div>
+                <div className={style.downloadItemTexts}>
+                  <p className={style.downloadTextHeader}>
+                    別緊張!行程還沒開始呢!
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
 
           <div className={style.downloadItemLine}>
             <div className={style.lineHeader}>您的祝福語</div>

@@ -266,9 +266,10 @@
 .nameCell {
   width: 40%;
   word-break: break-all;
+  white-space: nowrap;
 
-  &.pdf:before {
-    content: "PDF";
+  &.png:before {
+    content: "PNG";
     background-color: #e2e9f8;
     color: #5a8ff7;
   }
@@ -305,6 +306,12 @@
   cursor: pointer;
 }
 
+.nofile {
+  font-size: 16px;
+  font-family: emoji;
+  color: grey;
+  margin: 12px;
+}
 /**
 *screen設定
 */

@@ -1,7 +1,5 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 import { showAlert } from "../components/AlertModel/Alert";
-import { ReactComponent as Check } from "../assets/svgs/checkMark.svg";
-import { ReactComponent as Error } from "../assets/svgs/errorMark.svg";
 
 /**
  * 創建axios實例
@@ -37,29 +35,27 @@ service.interceptors.request.use((config: any) => {
 });
 
 /**
- * 響應攔截
+ * response響應攔截
  */
 service.interceptors.response.use((res: AxiosResponse<any>) => {
   console.log(res);
-  const { code, data, message, token } = res.data;
+  const { code, data, message } = res.data;
   if (code == 0) {
     if (res.data.data) {
       res.data.data = backToFront(res.data.data);
-
-      message &&
-        showAlert({
-          type: "success" as const,
-          message: `成功: ${message}`,
-          show: true,
-          icon: <Check />,
-        });
     }
+
+    message &&
+      showAlert({
+        type: "success" as const,
+        message: `成功: ${message}`,
+        show: true,
+      });
   } else {
     showAlert({
       type: "danger" as const,
       message: `失敗: ${res.data.message}`,
       show: true,
-      icon: <Error />,
     });
     console.log(message);
   }
@@ -67,7 +63,7 @@ service.interceptors.response.use((res: AxiosResponse<any>) => {
 });
 
 /**
- * 封裝請求函數
+ * request封裝請求函數
  */
 const request = (options: AxiosRequestConfig<any>) => {
   if (options.method === "get") {

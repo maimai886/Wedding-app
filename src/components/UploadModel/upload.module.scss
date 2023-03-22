@@ -42,11 +42,21 @@
       }
     }
 
-    .uploadText {
-      margin: 0 0 0 5px;
-      font-size: 12px;
-      color: #5a5a5a;
-      opacity: 0.8;
+    .uploadBox {
+      flex-flow: column;
+      display: flex;
+      margin: 5px;
+      .uploadBoxTitle {
+        font-weight: bold;
+        font-size: 14px;
+        margin: 0 0 5px 0;
+        color: #696969;
+      }
+      .uploadText {
+        font-size: 12px;
+        color: #5a5a5a;
+        opacity: 0.8;
+      }
     }
   }
 }

@@ -1,39 +1,53 @@
-import React, { ChangeEvent, useRef, useState } from "react";
+import React, { ChangeEvent, useRef, useState, useEffect } from "react";
 import style from "./upload.module.scss";
 import { ReactComponent as Plus } from "../../assets/svgs/plusMark.svg";
 import { ReactComponent as Cancle } from "../../assets/svgs/cancleMark.svg";
 import Offcanvas from "react-bootstrap/Offcanvas";
-import { UploadFile } from "./uploadModel.interface";
 import moment from "moment";
 import { Button } from "react-bootstrap";
+import { showAlert } from "../AlertModel/Alert";
+import { uploadApi, getFileListApi } from "../../request";
+import { FileListData } from "../../views/Information/information.interface";
 
 interface WriteModelProps {
   openUpload: boolean;
   setOpenUpload: React.Dispatch<React.SetStateAction<boolean>>;
+  setFileList: any;
   multiple?: boolean;
+  handleMenu: Function;
 }
 
 const WriteModel = (props: WriteModelProps) => {
   /**
    * 状態定義
    */
-  const handleClose = () => {
-    props.setOpenUpload(false);
-    handelClear();
+  //ユーザーinfo
+  const userInfo = {
+    userName: localStorage.getItem("userName"),
+    sqlNo: localStorage.getItem("sqlNo"),
   };
 
   //ファイルデータ
   const fileInput = useRef<HTMLInputElement>(null);
 
-  const [fileList, setFileList] = useState<UploadFile[]>([]);
-
   const [imgFile, setImgFile] = useState<File[]>([]);
 
   const [fileSrc, setFileSrc] = useState<any>(null);
 
+  //ファイル名
+  const [fileName, setFileName] = useState<string>(
+    moment().format("YYYYMMDDHHmmssSSS")
+  );
+
   /**
    * 関数定義
    */
+  //閉じる処理
+  const handleClose = () => {
+    props.setOpenUpload(false);
+    handelClear();
+  };
+
   //ファイルアップロード
   function handleFileChange(e: ChangeEvent<HTMLInputElement>): void {
     const files = e.target.files;
@@ -60,9 +74,50 @@ const WriteModel = (props: WriteModelProps) => {
   }
 
   //コミット
-  function handleUpload(): void {
-    console.log("file", imgFile);
+  async function handleUpload(): Promise<void> {
+    handleClose();
+
+    //認証失敗
+    if (userInfo.userName == null || userInfo.userName == "") {
+      handleClose();
+      showAlert({
+        type: "warning" as const,
+        message: `失敗:歹勢啦!好像還不知道您的大名耶 (ᗒᗣᗕ)՞ `,
+        show: true,
+      });
+      return;
+    }
+
+    //続き
+    const param = {
+      userName: userInfo.userName,
+      sqlNo: userInfo.sqlNo,
+    };
+
+    const result = await uploadApi(imgFile[0], fileName, param);
+    if (result?.code == 0) {
+      props.handleMenu();
+    }
   }
+
+  //filelist取得
+  async function getFileList(): Promise<void> {
+    if (userInfo.sqlNo == null || userInfo.sqlNo == "") {
+      return;
+    }
+    const param = { ...userInfo };
+    let result = await getFileListApi(param);
+    if (result.code == 0) {
+      props.setFileList(result.fileList);
+    }
+  }
+  /**
+   * 監視定義
+   */
+  useEffect(() => {
+    getFileList();
+  }, []);
+
   return (
     <>
       <Offcanvas
@@ -84,11 +139,19 @@ const WriteModel = (props: WriteModelProps) => {
             <>
               {imgFile.map((item, index) => {
                 return (
-                  <>
+                  <div className={style.uploadBody}>
                     <Cancle className={style.cancle} onClick={handelClear} />
                     <img src={fileSrc} className={style.imgPre} />
-                    <span className={style.uploadText}>{item.name}</span>
-                  </>
+                    <div className={style.uploadBox}>
+                      <div className={style.uploadBoxTitle}>幫照片取個名字</div>
+                      <input
+                        className={style.uploadText}
+                        defaultValue={fileName}
+                        onChange={(e) => setFileName(e.target.value)}
+                        maxLength={20}
+                      />
+                    </div>
+                  </div>
                 );
               })}
             </>

@@ -1,4 +1,5 @@
 export interface StepModel {
+  id: number;
   startTime: string;
   endTime: string;
   eventName?: string;
