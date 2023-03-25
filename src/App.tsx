@@ -5,6 +5,7 @@ import "swiper/css/bundle";
 
 function App() {
   const outlet = useRoutes(router);
+
   return <>{outlet}</>;
 }
 

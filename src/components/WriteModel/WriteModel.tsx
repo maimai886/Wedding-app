@@ -3,7 +3,7 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import { commentApi, getCommentApi } from "../../request";
-import { showAlert } from "../AlertModel/Alert";
+import message from "../Message/Message";
 
 interface WriteModelProps {
   openWrite: boolean;
@@ -36,10 +36,9 @@ const WriteModel = (props: WriteModelProps) => {
   async function handleSumbit(): Promise<void> {
     if (userInfo.userName == null || userInfo.userName == "") {
       handleClose();
-      showAlert({
+      message.alert({
         type: "warning" as const,
         message: `失敗:歹勢啦!好像還不知道您的大名耶 (ᗒᗣᗕ)՞ `,
-        show: true,
       });
       return;
     }

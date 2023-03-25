@@ -1,7 +1,9 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Outlet } from "react-router";
 import { useLocation } from "react-router-dom";
+import LoadingModel from "../components/LoadingModel/LoadingModel";
 import Menu from "../components/Menu/Menu";
+import { AppContext } from "../context/AppContext";
 import Information from "./Information/Information";
 import MyPicture from "./MyPicture/MyPicture";
 import Present from "./Present/Present";
@@ -24,6 +26,8 @@ const Home = () => {
   //User状態
   const [openUser, setOpenUser] = useState<boolean>(false);
 
+  const context = useContext(AppContext);
+
   /**
    * 関数定義
    */
@@ -43,21 +47,26 @@ const Home = () => {
     menuSelector == "rank" ? setShowHeader(false) : setShowHeader(true);
   }, [menuSelector]);
 
-  return (
-    <Menu
-      handleMenu={(value: string) => setMenuSelector(value)}
-      showHeader={showHeader}
-      handleUser={(value: boolean) => setOpenUser(value)}
-    >
-      {path.pathname == "/admin" && <Outlet />}
-      {menuSelector == "" && <Information handleMenu={setMenuSelector} />}
-      {menuSelector == "mypicture" && <MyPicture />}
-      {menuSelector == "rank" && <Rank />}
-      {menuSelector == "schedule" && <Schedule />}
-      {menuSelector == "present" && <Present />}
+  useEffect(() => {}, [context]);
 
-      <User openUser={openUser} setOpenUser={setOpenUser} />
-    </Menu>
+  return (
+    <>
+      <LoadingModel show={context.showLoading} />
+      <Menu
+        handleMenu={(value: string) => setMenuSelector(value)}
+        showHeader={showHeader}
+        handleUser={(value: boolean) => setOpenUser(value)}
+      >
+        {path.pathname == "/admin" && <Outlet />}
+        {menuSelector == "" && <Information handleMenu={setMenuSelector} />}
+        {menuSelector == "mypicture" && <MyPicture />}
+        {menuSelector == "rank" && <Rank />}
+        {menuSelector == "schedule" && <Schedule />}
+        {menuSelector == "present" && <Present />}
+
+        <User openUser={openUser} setOpenUser={setOpenUser} />
+      </Menu>
+    </>
   );
 };
 

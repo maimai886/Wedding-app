@@ -1,7 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
+import message from "../../components/Message/Message";
+import { AppContext } from "../../context/AppContext";
+import useLoading from "../../hook/useLoading";
 import { LoginApi } from "../../request";
 
 interface UserProps {
@@ -16,25 +19,44 @@ const User = (props: UserProps) => {
   //ユーザー名
   const [userName, setUserName] = useState<string>("");
 
+  //useContextでユーザーINFO保存
+  const { setUserInfo } = useContext(AppContext);
+
+  //loadingModel
+  const loading = useLoading();
+
   /**
    * 関数定義
    */
+
   //Model表示非表示
-  const handleClose = () => props.setOpenUser(false);
+  function handleClose(): void {
+    props.setOpenUser(false);
+  }
 
   //sumbit処理
   async function handleLogin(): Promise<void> {
     if (userName == null || userName == "") {
       return;
     }
+    loading.open();
     const params = { userName: userName };
     let result = await LoginApi(params);
+    console.log("test", result);
     if (result) {
       result = { ...result };
       localStorage.setItem("userName", result[0].userName);
       localStorage.setItem("sqlNo", result[0].sqlNo);
       handleClose();
     }
+    loading.close();
+  }
+
+  function test() {
+    message.alert({
+      type: "danger" as const,
+      message: `失敗: `,
+    });
   }
 
   /**
@@ -82,6 +104,9 @@ const User = (props: UserProps) => {
           </Button>
           <Button variant="primary" onClick={handleLogin}>
             開始
+          </Button>
+          <Button variant="primary" onClick={test}>
+            test
           </Button>
         </Modal.Footer>
       </Modal>

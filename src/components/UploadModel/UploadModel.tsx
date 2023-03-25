@@ -5,9 +5,8 @@ import { ReactComponent as Cancle } from "../../assets/svgs/cancleMark.svg";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import moment from "moment";
 import { Button } from "react-bootstrap";
-import { showAlert } from "../AlertModel/Alert";
 import { uploadApi, getFileListApi } from "../../request";
-import { FileListData } from "../../views/Information/information.interface";
+import message from "../Message/Message";
 
 interface WriteModelProps {
   openUpload: boolean;
@@ -80,10 +79,9 @@ const WriteModel = (props: WriteModelProps) => {
     //認証失敗
     if (userInfo.userName == null || userInfo.userName == "") {
       handleClose();
-      showAlert({
+      message.alert({
         type: "warning" as const,
         message: `失敗:歹勢啦!好像還不知道您的大名耶 (ᗒᗣᗕ)՞ `,
-        show: true,
       });
       return;
     }
@@ -146,7 +144,7 @@ const WriteModel = (props: WriteModelProps) => {
                       <div className={style.uploadBoxTitle}>幫照片取個名字</div>
                       <input
                         className={style.uploadText}
-                        defaultValue={fileName}
+                        placeholder={fileName}
                         onChange={(e) => setFileName(e.target.value)}
                         maxLength={20}
                       />

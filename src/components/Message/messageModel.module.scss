@@ -1,0 +1,35 @@
+.main {
+  .messageBox {
+    position: fixed;
+    top: 20%;
+    transform: translateX(-50%);
+    opacity: 1;
+    box-shadow: 0 1px 1px 1px #d7ebff;
+    animation: fade-in-out 1s;
+    -o-animation: fade-in-out 1s;
+    -moz-animation: fade-in-out 1s;
+    -webkit-animation: fade-in-out 1s;
+    -ms-zoom-animation: fade-in-out 1s;
+    animation-fill-mode: forwards;
+    z-index: 9998;
+  }
+
+  .iconStyle {
+    margin: 5px;
+    fill: green;
+  }
+}
+
+@keyframes fade-in-out {
+  0% {
+    opacity: 0;
+    transform: translateX(-20%);
+  }
+  80% {
+    opacity: 1;
+    transform: translateX(0%);
+  }
+  100% {
+    opacity: 0;
+  }
+}

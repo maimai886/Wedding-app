@@ -100,7 +100,6 @@
 .svgContent {
   display: flex;
   align-items: center;
-  margin-left: 10%;
 }
 
 .svgStyle {
@@ -121,5 +120,10 @@
   }
   80% {
     box-shadow: 0 1px 7px 2px #888da9;
+  }
+}
+@media screen and (max-width: 768px) {
+  .svgContent {
+    padding: 10%;
   }
 }

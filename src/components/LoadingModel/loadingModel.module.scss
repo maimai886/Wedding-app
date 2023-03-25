@@ -1,0 +1,43 @@
+.loadingBox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 99999;
+}
+.loadingMark {
+}
+.loadingText {
+  margin: 20px;
+  white-space: nowrap;
+  font-weight: bolder;
+}
+.loadingBack {
+  width: 999vh;
+  height: 999vh;
+  position: fixed;
+  z-index: 9999;
+  background-color: rgb(255 255 255 / 60%);
+  top: 0;
+  left: 0;
+  transform: translate(-50%, -50%);
+}
+.show {
+  animation: fade-in-out 1s;
+  -o-animation: fade-in-out 1s;
+  -moz-animation: fade-in-out 1s;
+  -webkit-animation: fade-in-out 1s;
+  -ms-zoom-animation: fade-in-out 1s;
+  animation-fill-mode: forwards; /* 保持最終狀態 */
+}
+@keyframes fade-in-out {
+  0% {
+    opacity: 0;
+  }
+  80% {
+    opacity: 1;
+  }
+}

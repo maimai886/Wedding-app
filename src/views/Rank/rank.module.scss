@@ -100,7 +100,7 @@
     -o-transition: 0.2s ease-in;
   }
 
-  &:hover img {
+  .max {
     transform: scale(1.125);
     -webkit-transform: scale(1.125);
     -moz-transform: scale(1.125);
@@ -184,6 +184,11 @@
   }
 }
 
+.page {
+  display: flex;
+  justify-content: center;
+  padding: 5px;
+}
 /**
 *screen
 */

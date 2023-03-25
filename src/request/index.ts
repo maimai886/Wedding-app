@@ -40,13 +40,26 @@ export const getCommentApi = async (data: any) => {
 };
 
 /**
- * getFileListApi
+ * ユーザーアップロードしたファイル
  */
 
 export const getFileListApi = async (data: any) => {
   const response = await request({
     method: "post",
     url: "/api/v1/user/getFileList",
+    data,
+  });
+  return response.data;
+};
+
+/**
+ * 全部のファイル
+ */
+
+export const getAllFileListApi = async (data: any) => {
+  const response = await request({
+    method: "post",
+    url: "/api/v1/user/getAllFileListApi",
     data,
   });
   return response.data;
