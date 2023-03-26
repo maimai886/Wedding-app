@@ -7,6 +7,7 @@ import moment from "moment";
 import { Button } from "react-bootstrap";
 import { uploadApi, getFileListApi } from "../../request";
 import message from "../Message/Message";
+import useLoading from "../../hook/useLoading";
 
 interface WriteModelProps {
   openUpload: boolean;
@@ -25,6 +26,9 @@ const WriteModel = (props: WriteModelProps) => {
     userName: localStorage.getItem("userName"),
     sqlNo: localStorage.getItem("sqlNo"),
   };
+
+  //loadingModel
+  const loading = useLoading();
 
   //ファイルデータ
   const fileInput = useRef<HTMLInputElement>(null);
@@ -86,6 +90,7 @@ const WriteModel = (props: WriteModelProps) => {
       return;
     }
 
+    loading.open();
     //続き
     const param = {
       userName: userInfo.userName,
@@ -96,6 +101,7 @@ const WriteModel = (props: WriteModelProps) => {
     if (result?.code == 0) {
       props.handleMenu();
     }
+    loading.close();
   }
 
   //filelist取得

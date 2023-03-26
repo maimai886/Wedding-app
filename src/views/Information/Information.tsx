@@ -5,7 +5,7 @@ import { ReactComponent as Box } from "../../assets/svgs/boxMark.svg";
 import together from "../../assets/img/together.jpg";
 import sara from "../../assets/img/sara.jpg";
 import wu from "../../assets/img/wu.jpg";
-import { useEffect, useState, useRef, useCallback } from "react";
+import { useState } from "react";
 import moment from "moment";
 
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -17,6 +17,9 @@ import "swiper/css/navigation";
 import WriteModel from "../../components/WriteModel/WriteModel";
 import UploadModel from "../../components/UploadModel/UploadModel";
 import { FileListData } from "./information.interface";
+import Dropdown from "react-bootstrap/Dropdown";
+import useLoading from "../../hook/useLoading";
+import { pictureDelApi } from "../../request";
 
 interface InformationProps {
   handleMenu: React.Dispatch<React.SetStateAction<string>>;
@@ -26,8 +29,14 @@ const Information = (props: InformationProps) => {
   /**
    * 状態定義
    */
+  //ユーザーinfo
+  const userInfo = {
+    userName: localStorage.getItem("userName"),
+    sqlNo: localStorage.getItem("sqlNo"),
+  };
 
-  const [isScroll, setIsScroll] = useState<boolean>(false);
+  //loadingModel
+  const loading = useLoading();
 
   //imgUpload
   const [openUpload, setOpenUpload] = useState<boolean>(false);
@@ -38,8 +47,25 @@ const Information = (props: InformationProps) => {
   //fileList
   const [fileList, setFileList] = useState<FileListData[]>([]);
 
+  async function handleDel(pictureSqlNo: number, index: number): Promise<void> {
+    if (userInfo.userName == null || userInfo.userName == "") {
+      return;
+    }
+    loading.open();
+    const result = await pictureDelApi({ pictureSqlNo: pictureSqlNo });
+    console.log("result", result);
+    if (result.code == 0) {
+      setFileList((prevItems) => {
+        const newItems = [...prevItems];
+        newItems.splice(index, 1); // 删除指定索引处的数据
+        return newItems;
+      });
+      console.log("success");
+    }
+    loading.close();
+  }
   return (
-    <div className={`${style.main} ${isScroll && style.fixed}`}>
+    <div className={`${style.main} `}>
       {
         //功能區
         <section className={style.contentSection}>
@@ -161,8 +187,8 @@ const Information = (props: InformationProps) => {
               </div>
             </div>
             {fileList.length > 0 ? (
-              fileList.map((item) => (
-                <div className={style.filesTableRow} key={item.fileName}>
+              fileList.map((item, index) => (
+                <div className={style.filesTableRow} key={item.sqlNo}>
                   <div
                     className={`${style.tableCell} ${style.nameCell} ${style.png}`}
                   >
@@ -171,9 +197,18 @@ const Information = (props: InformationProps) => {
                   <div className={style.tableCell}>
                     {moment(item.updateTime).format("MM-DD HH:ss")}
                   </div>
-                  <div className={`${style.tableCell} ${style.actionCell}`}>
-                    <button className={style.moreAction}></button>
-                  </div>
+                  <Dropdown>
+                    <div className={`${style.tableCell} ${style.actionCell}`}>
+                      <Dropdown.Toggle className={style.moreAction} />
+                    </div>
+                    <Dropdown.Menu>
+                      <Dropdown.Item
+                        onClick={() => handleDel(item.sqlNo, index)}
+                      >
+                        刪除
+                      </Dropdown.Item>
+                    </Dropdown.Menu>
+                  </Dropdown>
                 </div>
               ))
             ) : (

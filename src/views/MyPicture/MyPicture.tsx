@@ -8,6 +8,7 @@ import "swiper/css/navigation";
 import { useEffect, useState } from "react";
 import { getFileListApi } from "../../request";
 import { FileListData } from "../Information/information.interface";
+import useLoading from "../../hook/useLoading";
 
 const MyPicture = () => {
   /**
@@ -18,6 +19,9 @@ const MyPicture = () => {
     userName: localStorage.getItem("userName"),
     sqlNo: localStorage.getItem("sqlNo"),
   };
+
+  //loadingModel
+  const loading = useLoading();
 
   //filelist取得
   const [fileList, setFileList] = useState<FileListData[]>([]);
@@ -30,11 +34,13 @@ const MyPicture = () => {
     if (userInfo.sqlNo == null || userInfo.sqlNo == "") {
       return;
     }
+    loading.open();
     const param = { ...userInfo };
     let result = await getFileListApi(param);
     if (result.code == 0) {
       setFileList(result.fileList);
     }
+    loading.close();
   }
   /**
    * 監視定義

@@ -108,7 +108,6 @@
     -o-transform: scale(1.125);
   }
 }
-
 .receivedFiles {
   display: flex;
   height: 70%;
@@ -161,6 +160,26 @@
     line-height: 24px;
   }
 }
+.heartBox {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 20px;
+  color: #b6b1b1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 1s all ease-in-out;
+  svg {
+    width: 48px;
+    height: 48px;
+  }
+  .isLike {
+    fill: #ff5053;
+    stroke: whitesmoke;
+    transition: 1s all ease-in-out;
+  }
+}
 
 .maximize {
   opacity: 0.8;
@@ -200,6 +219,14 @@
 
   .accessLinkWrapper {
     width: 33.3%;
+  }
+
+  .footer {
+    position: fixed;
+    z-index: 1;
+    bottom: 2%;
+    width: 100%;
+    left: 0px;
   }
 }
 

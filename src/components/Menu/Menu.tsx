@@ -125,10 +125,10 @@ const Menu: React.FC<menuProps> = (props) => {
             className={style.sideMenu}
             onClick={() => menuChange("schedule")}
           />
-          <Present
+          {/* <Present
             className={style.sideMenu}
             onClick={() => menuChange("present")}
-          />
+          /> */}
 
           <button className={style.btnLogout}>
             <Logout

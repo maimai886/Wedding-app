@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
+import useLoading from "../../hook/useLoading";
 import { commentApi, getCommentApi } from "../../request";
 import message from "../Message/Message";
 
@@ -23,6 +24,9 @@ const WriteModel = (props: WriteModelProps) => {
     sqlNo: localStorage.getItem("sqlNo"),
   };
 
+  //loadingModel
+  const loading = useLoading();
+
   /**
    * 関数定義
    */
@@ -43,6 +47,7 @@ const WriteModel = (props: WriteModelProps) => {
       return;
     }
 
+    loading.open();
     const param = {
       userName: userInfo.userName,
       sqlNo: userInfo.sqlNo,
@@ -51,6 +56,7 @@ const WriteModel = (props: WriteModelProps) => {
 
     let result = await commentApi(param);
     handleClose();
+    loading.close();
   }
 
   async function getComment(): Promise<void> {

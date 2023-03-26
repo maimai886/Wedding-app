@@ -85,3 +85,39 @@ export const uploadApi = async (file: File, fileName: string, data: any) => {
 
   return response.data;
 };
+
+/**
+ * likeApi
+ */
+export const belikeApi = async (data: any) => {
+  const response = await request({
+    method: "post",
+    url: "/api/v1/user/belike",
+    data,
+  });
+  return response.data;
+};
+
+/**
+ * dislikeApi
+ */
+export const dislikeApi = async (data: any) => {
+  const response = await request({
+    method: "post",
+    url: "/api/v1/user/dislike",
+    data,
+  });
+  return response.data;
+};
+
+/**
+ * DelApi
+ */
+export const pictureDelApi = async (data: any) => {
+  const response = await request({
+    method: "post",
+    url: "/api/v1/user/pictureDel",
+    data,
+  });
+  return response.data;
+};
