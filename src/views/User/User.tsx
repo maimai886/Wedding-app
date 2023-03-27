@@ -39,24 +39,14 @@ const User = (props: UserProps) => {
     if (userName == null || userName == "") {
       return;
     }
-    loading.open();
     const params = { userName: userName };
     let result = await LoginApi(params);
-    console.log("test", result);
     if (result) {
       result = { ...result };
       localStorage.setItem("userName", result[0].userName);
       localStorage.setItem("sqlNo", result[0].sqlNo);
-      handleClose();
     }
-    loading.close();
-  }
-
-  function test() {
-    message.alert({
-      type: "danger" as const,
-      message: `失敗: `,
-    });
+    handleClose();
   }
 
   /**
@@ -104,9 +94,6 @@ const User = (props: UserProps) => {
           </Button>
           <Button variant="primary" onClick={handleLogin}>
             開始
-          </Button>
-          <Button variant="primary" onClick={test}>
-            test
           </Button>
         </Modal.Footer>
       </Modal>

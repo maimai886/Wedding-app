@@ -5,20 +5,20 @@ import MessageModel from "./MessageModel";
 const message = {
   dom: null,
   alert(messageData: MessageModelData) {
-    // 创建一个dom
+    // dom作成
     let dom = document.createElement("div");
-    // 定义组件，
+    // component定義
     const JSXdom = <MessageModel messageData={messageData} show={true} />;
 
-    // 渲染DOM
+    // render
     createRoot(dom).render(JSXdom);
-    // 置入到body节点下
+    // bodyに追加
     document.body.appendChild(dom);
 
-    // 延迟1秒后移除DOM
+    // 閉じる
     setTimeout(() => {
       document.body.removeChild(dom);
-    }, 1000);
+    }, 2000);
   },
 };
 

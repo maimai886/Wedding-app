@@ -53,14 +53,12 @@ const Information = (props: InformationProps) => {
     }
     loading.open();
     const result = await pictureDelApi({ pictureSqlNo: pictureSqlNo });
-    console.log("result", result);
     if (result.code == 0) {
       setFileList((prevItems) => {
         const newItems = [...prevItems];
         newItems.splice(index, 1); // 删除指定索引处的数据
         return newItems;
       });
-      console.log("success");
     }
     loading.close();
   }

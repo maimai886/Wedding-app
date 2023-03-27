@@ -61,7 +61,6 @@ const Rank = () => {
       page: page,
       sqlNo: userInfo.sqlNo,
     });
-    console.log("test", result);
     if (result.code == 0) {
       setImg(result.fileList);
       setCount(() => result.count);

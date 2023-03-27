@@ -9,14 +9,14 @@ import { ReactComponent as File } from "../../assets/svgs/fileMark.svg";
 import { ReactComponent as Logout } from "../../assets/svgs/logoutMark.svg";
 import { ReactComponent as Download } from "../../assets/svgs/downloadMark.svg";
 import { ReactComponent as Downloading } from "../../assets/svgs/downloadingMark.svg";
-import { ReactComponent as Stop } from "../../assets/svgs/stopMark.svg";
+import { ReactComponent as Box } from "../../assets/svgs/boxMark.svg";
 import { ReactComponent as OpenRight } from "../../assets/svgs/rightMark.svg";
 import { ReactComponent as OpenLeft } from "../../assets/svgs/leftMark.svg";
 import { ReactComponent as Letter } from "../../assets/svgs/letterMark.svg";
 import { ReactComponent as Clock } from "../../assets/svgs/clockMark.svg";
 import Step from "../Step/Step";
 import { useEffect, useState } from "react";
-import { getCommentApi } from "../../request";
+import { getCommentApi, getFileListApi } from "../../request";
 import moment from "moment";
 import { StepModel } from "../Step/step.interface";
 import { getScheduleConstant } from "../../constants/scheduleConstant";
@@ -50,6 +50,9 @@ const Menu: React.FC<menuProps> = (props) => {
   //スケジュールデータ
   const [scheduleData, setScheduleData] = useState<StepModel>();
 
+  //filelist取得
+  const [fileLen, setFileLen] = useState<number>(0);
+
   /**
    * 関数定義
    */
@@ -77,9 +80,20 @@ const Menu: React.FC<menuProps> = (props) => {
   async function handleRightClick(): Promise<void> {
     setIsRightOpen(!isRightOpen);
     await getComment();
+    await getFileList();
     handleSchedule();
   }
 
+  async function getFileList(): Promise<void> {
+    if (userInfo.sqlNo == null || userInfo.sqlNo == "") {
+      return;
+    }
+    const result = await getFileListApi({ sqlNo: userInfo.sqlNo });
+
+    if (result.code == 0) {
+      setFileLen(result.fileList.length);
+    }
+  }
   //comment取得
   async function getComment(): Promise<void> {
     if (userInfo.sqlNo == null || userInfo.sqlNo == "") {
@@ -183,20 +197,20 @@ const Menu: React.FC<menuProps> = (props) => {
                 <File />
               </div>
               <div className={style.downloadItemTexts}>
-                <p className={style.downloadTextHeader}>測試.mp4</p>
+                <p className={style.downloadTextHeader}>照片</p>
                 <p className={style.downloadTextInfo}>
-                  34.45 MB<span>等待下載...</span>
+                  已上傳<span>{fileLen} 個檔案</span>
                 </p>
               </div>
               <div className={style.downloadIcon}>
-                <Download />
+                <Box />
               </div>
             </div>
           </div>
           {
             //yesterday
           }
-          <div className={style.downloadItemLine}>
+          {/* <div className={style.downloadItemLine}>
             <div className={style.lineHeader}>Yesterday</div>
             <div className={style.downloadArea}>
               <div className={style.downloadItemIcon}>
@@ -212,7 +226,7 @@ const Menu: React.FC<menuProps> = (props) => {
                 <Stop />
               </div>
             </div>
-          </div>
+          </div> */}
 
           <div className={style.rightAreaHeaderWrapper}>
             <p className={style.rightAreaHeader}>現在行程</p>

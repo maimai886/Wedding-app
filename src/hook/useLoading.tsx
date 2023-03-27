@@ -8,7 +8,6 @@ const useLoading = () => {
   const { showLoading, setShowLoading } = useContext(AppContext);
 
   function open() {
-    console.log("inin");
     setShowLoading(true);
     setVisible(true);
   }

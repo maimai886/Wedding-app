@@ -95,6 +95,7 @@ const WriteModel = (props: WriteModelProps) => {
     const param = {
       userName: userInfo.userName,
       sqlNo: userInfo.sqlNo,
+      fileName: fileName,
     };
 
     const result = await uploadApi(imgFile[0], fileName, param);

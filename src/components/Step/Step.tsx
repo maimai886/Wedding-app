@@ -27,7 +27,6 @@ const Step = (props: StepProps) => {
     const startTime = parseInt(props.StepData?.startTime.replace(":", ""));
     const endtTime = parseInt(props.StepData?.endTime.replace(":", ""));
     let result = false;
-    console.log(now, startTime, props.StepData.startTime, now > startTime);
     if (now > startTime) {
       result = true;
       setIsTime(result);
