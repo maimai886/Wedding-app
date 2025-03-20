@@ -10,7 +10,7 @@ import moment from "moment";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 // import required modules
-import { EffectCoverflow, Pagination } from "swiper";
+import { EffectCoverflow, Pagination } from "swiper/modules";
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/navigation";
@@ -21,32 +21,44 @@ import Dropdown from "react-bootstrap/Dropdown";
 import useLoading from "../../hook/useLoading";
 import { pictureDelApi } from "../../request";
 
+/**
+ * 情報コンポーネントのプロパティインターフェース
+ */
 interface InformationProps {
-  handleMenu: React.Dispatch<React.SetStateAction<string>>;
+  handleMenu: React.Dispatch<React.SetStateAction<string>>; // メニュー選択時の処理関数
 }
 
+/**
+ * 情報コンポーネント
+ * ユーザー情報の表示と管理を行う
+ */
 const Information = (props: InformationProps) => {
   /**
    * 状態定義
    */
-  //ユーザーinfo
+  // ユーザー情報
   const userInfo = {
     userName: localStorage.getItem("userName"),
     sqlNo: localStorage.getItem("sqlNo"),
   };
 
-  //loadingModel
+  // ローディング状態管理
   const loading = useLoading();
 
-  //imgUpload
+  // 画像アップロードモーダルの表示状態
   const [openUpload, setOpenUpload] = useState<boolean>(false);
 
-  //imgUpload
+  // 書き込みモーダルの表示状態
   const [openWrite, setOpenWrite] = useState<boolean>(false);
 
-  //fileList
+  // ファイルリスト
   const [fileList, setFileList] = useState<FileListData[]>([]);
 
+  /**
+   * ファイル削除処理
+   * @param pictureSqlNo - 削除対象のファイルID
+   * @param index - ファイルリスト内のインデックス
+   */
   async function handleDel(pictureSqlNo: number, index: number): Promise<void> {
     if (userInfo.userName == null || userInfo.userName == "") {
       return;
@@ -56,16 +68,17 @@ const Information = (props: InformationProps) => {
     if (result.code == 0) {
       setFileList((prevItems) => {
         const newItems = [...prevItems];
-        newItems.splice(index, 1); // 删除指定索引处的数据
+        newItems.splice(index, 1); // 指定されたインデックスのデータを削除
         return newItems;
       });
     }
     loading.close();
   }
+
   return (
     <div className={`${style.main} `}>
       {
-        //功能區
+        // 操作セクション
         <section className={style.contentSection}>
           <h1 className={style.sectionHeader}>操作</h1>
           <div className={style.accessLinks}>
@@ -105,7 +118,7 @@ const Information = (props: InformationProps) => {
       }
 
       {
-        //圖片區
+        //　画像セクション
         <section className={style.contentSection}>
           <div className={style.sectionHeaderWrapper}>
             <h1 className={style.sectionHeader}>About us</h1>
@@ -160,7 +173,7 @@ const Information = (props: InformationProps) => {
         </section>
       }
       {
-        //檔案列表
+        // ファイルリスト
         <section className={style.contentSection}>
           <div className={style.sectionHeaderWrapper}>
             <h1 className={style.sectionHeader}>已上傳</h1>

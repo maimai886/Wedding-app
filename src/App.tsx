@@ -1,12 +1,18 @@
-import { useRoutes } from "react-router-dom";
-import router from "./rotuer";
-import "./App.scss";
-import "swiper/css/bundle";
+import React from 'react';
+import { RouterProvider } from 'react-router'; // ルーターのプロバイダー
+import "./App.scss"; // アプリケーションのスタイル
+import router from './rotuer'; // ルーター設定
 
+/**
+ * アプリケーションのメインコンポーネント
+ * @returns {JSX.Element} ルーターを提供するルート要素
+ */
 function App() {
-  const outlet = useRoutes(router);
-
-  return <>{outlet}</>;
+  return (
+    <>
+      <RouterProvider router={router} />
+    </>
+  );
 }
 
 export default App;

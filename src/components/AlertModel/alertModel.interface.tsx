@@ -2,7 +2,7 @@ export interface AlertModelData {
   type: string;
   message: string;
   show: boolean;
-  icon?: JSX.Element;
+  icon?: React.ReactNode;
 }
 
 export const AlertModelDefault = {

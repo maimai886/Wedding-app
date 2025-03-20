@@ -1,3 +1,5 @@
+import { ReactElement } from "react";
+
 export interface MessageModelData {
   type:
     | "primary"
@@ -9,7 +11,7 @@ export interface MessageModelData {
     | "light"
     | "dark";
   message: string;
-  icon?: JSX.Element | null;
+  icon?: ReactElement | null;
 }
 
 export const MessageModelDefault: MessageModelData = {

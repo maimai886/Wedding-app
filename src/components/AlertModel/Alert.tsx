@@ -1,5 +1,5 @@
-import { ComponentType } from "react";
-import ReactDOM from "react-dom";
+import { ComponentType, ReactElement } from "react";
+import { createRoot } from "react-dom/client";
 import AlertModel from "./AlertModel"; // 引入 AlertModel
 
 const AlertContainer = document.createElement("div");
@@ -17,8 +17,10 @@ export interface AlertModelData {
     | "light"
     | "dark";
   message: string;
-  icon?: JSX.Element;
+  icon?: ReactElement;
 }
+
+let root: ReturnType<typeof createRoot>;
 
 /**
  * 顯示警報
@@ -26,11 +28,11 @@ export interface AlertModelData {
  */
 export function showAlert(alertData: AlertModelData) {
   const onClose = () => {
-    ReactDOM.unmountComponentAtNode(AlertContainer);
+    root?.unmount();
   };
 
-  ReactDOM.render(
-    <AlertModel alertData={alertData} onClose={onClose} />, // 修改為 AlertModel
-    AlertContainer
+  root = createRoot(AlertContainer);
+  root.render(
+    <AlertModel alertData={alertData} onClose={onClose} />
   );
 }

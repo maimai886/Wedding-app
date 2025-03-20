@@ -1,43 +1,48 @@
+// すべての要素にボックスサイズの計算方法を設定
 * {
   box-sizing: border-box;
 }
 
+// スムーズスクロールを有効化
 html {
   scroll-behavior: smooth;
 }
 
+// 基本的なレイアウト設定
 html,
 body {
-  width: 100%;
-  height: 100vh;
-  margin: 0;
-}
-
-body {
-  font-family: "DM Sans", sans-serif;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  overflow: hidden;
-  overflow-x: hidden;
+  width: 100%; // 幅を100%に設定
+  height: 100vh; // 高さをビューポートの高さに設定
+  margin: 0; // マージンをリセット
+  font-family: "DM Sans", sans-serif; // フォントファミリーを設定
+  display: flex; // Flexboxを有効化
+  justify-content: center; // 水平方向の中央揃え
+  align-items: center; // 垂直方向の中央揃え
+  flex-direction: column; // 縦方向のレイアウト
+  overflow: hidden; // オーバーフローを非表示
+  overflow-x: hidden; // 水平方向のオーバーフローを非表示
+  // 背景画像の設定（現在はコメントアウト）
   //background-image: url("https://images.unsplash.com/photo-1497541271502-639c540968b6?ixlib=rb-1.2.1&auto=format&fit=crop&w=2250&q=80");
-  background-image: linear-gradient(to top, #b5cfff 0%, #ffb1fd 100%);
-  background-position: center;
-  background-size: cover;
-  padding: 20px;
+  background-image: linear-gradient(to top, #b5cfff 0%, #ffb1fd 100%); // グラデーション背景
+  background-position: center; // 背景を中央に配置
+  background-size: cover; // 背景をカバー
+  padding: 20px; // 内側の余白
 }
 
+// カスタムプロパティ（CSS変数）の定義
 :root {
-  --dark-font: #0f0f10;
-  --light-font: #79798c;
+  --dark-font: #0f0f10; // ダークフォントカラー
+  --light-font: #79798c; // ライトフォントカラー
 }
 
+// ルート要素のスタイル設定
 #root {
-  @extend body;
+  @extend body; // bodyのスタイルを継承
 }
+
+// モバイル対応のメディアクエリ
 @media screen and (max-width: 520px) {
   body {
-    padding: 0;
+    padding: 0; // パディングをリセット
   }
 }

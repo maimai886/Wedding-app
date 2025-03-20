@@ -1,7 +1,7 @@
 import style from "./myPicture.module.scss";
 import { Swiper, SwiperSlide } from "swiper/react";
 // import required modules
-import { EffectCoverflow, Pagination } from "swiper";
+import { EffectCoverflow, Pagination } from "swiper/modules";
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/navigation";
